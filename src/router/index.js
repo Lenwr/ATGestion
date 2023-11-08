@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from "../views/HomeView.vue";
 import Form from "../views/form.vue";
 import ListeView from "../views/listeView.vue";
@@ -12,7 +12,7 @@ import PlaningCalendarView from "../views/planingCalendarView.vue";
 
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(),
   linkActiveClass:'classActive',
   routes: [
     {

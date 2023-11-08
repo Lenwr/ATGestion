@@ -110,7 +110,7 @@ watch(datas, () => {
     options.events = datas.value.map((doc) => {
       const formattedStart = display(doc.start);
       console.log(formattedStart)
-    // const formattedEnd = display(doc.end);
+     //const formattedEnd = display(doc.end);
       return {
         id : doc.id,
         title:doc.title ,
@@ -184,16 +184,6 @@ mobile:text-[0.5em]'
       >
       </FullCalendar>
 </div>
-
-
-  <div class="text-black py-8">
-
-  <ul>
-      <li v-for="todo in datas" :key="todo.id">
-        <span>{{display(todo.start)}}</span>
-      </li>
-    </ul>
-  </div>
 
 
 </template>
