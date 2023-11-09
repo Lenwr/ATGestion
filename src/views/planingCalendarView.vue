@@ -28,8 +28,7 @@ const showModal = ref(false);
 
 const submitForm = async () => {
   try {
- 
-   
+
     const db = getFirestore();
     const eventCollection = collection(db, 'events');
   
@@ -41,7 +40,12 @@ const submitForm = async () => {
     
     const newDocumentRef = await addDoc(eventCollection, data);
     console.log('Document ajouté avec ID :', newDocumentRef.id);
-    console.log(data)
+      title = ref('')
+      start= ref('')
+      end =ref('')
+      allDay = ref('')
+      alert("Déchargement enrégistré")
+    
   } catch (error) {
     console.error('Erreur lors de l\'envoi du formulaire :', error);
   }
@@ -65,11 +69,6 @@ const display = (item) => {
  return todayStr
 }
 
-
-
-
-
-
 const options = reactive({
   plugins: [dayGridPlugin , timeGridPlugin , listPlugin , interactionPlugin] ,
   initialView :  'dayGridMonth' ,
@@ -80,8 +79,8 @@ const options = reactive({
   },
   editable : true ,
   selectable : true ,
-  initialEvents: [],
-  eventsSet:datas.value,
+  initialEvents:[],
+  eventsSet:[],
   select: (arg) => {
    const cal = arg.view.calendar
     cal.unselect()
@@ -95,21 +94,29 @@ const options = reactive({
   eventClick: (arg)=> {
     console.log(arg)
   },
-  events: [
-  ],
+  events: [],
   eventAdd: (arg) => {
 
   },
 });
 
-watch(getEvents , () =>{
-
-})
-watch(datas, () => {
-  if (datas.value) {
+// watch(getEvents , () =>{
+//        options.events = datas.value.map((doc) => {
+//       const formattedStart = display(doc.start)
+//       //const formattedEnd = display(doc.end);
+//       return {
+//         id: doc.id,
+//         title: doc.title,
+//         start: formattedStart,
+//         end: formattedStart,
+//       }
+//     })
+//      //  console.log(options.events)
+// })
+watch(datas, (oldDatas , newDatas) => {
+  if (newDatas) {
     options.events = datas.value.map((doc) => {
       const formattedStart = display(doc.start);
-      console.log(formattedStart)
      //const formattedEnd = display(doc.end);
       return {
         id : doc.id,
@@ -130,15 +137,21 @@ watch(datas, () => {
 
 <template>
 <div class="pt-8 pb-[20%] bg px-1 flex flex-col">
-<div class="flex flex-row justify-around items-center text-black py-4">
-    <p> Ajouter un Chargement </p>
-    <!-- The button to open modal -->
-<a href="#my_modal_8" class="btn btn-primary mx-4 mobile:w-[20%]">ajouter</a>
-<!-- Put this part before </body> tag -->
-<div class="modal" id="my_modal_8">
-    <div class="modal-box bg-white">
-    <h3 class="font-bold text-lg">Hello!</h3>
-    <form class="space-y-6" @submit.prevent="submitForm">
+      <FullCalendar
+          class='text-black
+mobile:text-[0.5em]'
+          :options='options'
+      >
+      </FullCalendar>
+      <div class="flex justify-center ">
+        <div class="collapse w-[80%]  my-8  bg-primary mb-[30%]">
+    <input type="checkbox" class="peer" />
+    <div class="     collapse-title bg-primary text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content">
+     Ajouter un chargement
+    </div>
+    <div class=" pt-4 collapse-content bg-primary text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content"> 
+        <p>
+          <form class="space-y-6" @submit.prevent="submitForm">
 
 <div class="date mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
   <div class="sm:col-span-3">
@@ -167,23 +180,12 @@ watch(datas, () => {
 <div>
 </div>
 </form>
-    <div class="modal-action">
-     <a href="#" class="btn">Fermer</a>
+        </p>
     </div>
 
   </div>
+      </div>
+  
 </div>
-</div>
-
-
-
-      <FullCalendar
-          class='text-black
-mobile:text-[0.5em]'
-          :options='options'
-      >
-      </FullCalendar>
-</div>
-
 
 </template>

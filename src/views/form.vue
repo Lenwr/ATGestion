@@ -64,6 +64,7 @@ export default {
           modeDePaiement: modeDePaiement.value,
           resteAPayer: resteAPayer.value,
           date: date.value,
+          deliveryStatus: "En attente"
         };
         console.log(Data)
         const newDocumentRef = await addDoc(enlevementsCollection, Data);

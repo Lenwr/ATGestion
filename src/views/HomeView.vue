@@ -22,7 +22,7 @@ export default {
 
   <p v-if="displayName" class="text-black bg-primary px-4 py-4 mb-[10%] rounded shadow-2xl font-bold"  >  {{displayName}} </p>
 
-
+<img class="mobile:rounded-xl mobile:shadow-2xl hidden " src="/images/logo.png" alt="" srcset="">
 
   <div class="collapse bg-primary mt-[10%]">
     <input type="checkbox" class="peer" />

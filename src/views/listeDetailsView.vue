@@ -19,14 +19,14 @@ const detailId = ref(route.params.id)
 
 const client = computed(()=>{
   return datas.value.find(detail => detail.id === detailId.value)
-
+})
 
 const today = new Date()
 
 
 
 //formatage date
-const   formatDateTime = (dateTimeString) => {
+const formatDateTime = (dateTimeString) => {
   const date = new Date(dateTimeString);
   const options = {
     weekday: 'long', // Jour de la semaine (ex: "Mardi")
@@ -38,6 +38,21 @@ const   formatDateTime = (dateTimeString) => {
   };
   return format(date, "EEEE d MMMM yyyy - HH'h' mm" , { locale: frLocale } );
 }
+
+//update deliveryStatus
+const updateStatut = async (id) => {
+  const DocRef = doc(database, "enlevements", id);
+ const change = document.getElementById('sel')
+  console.log(change.value)
+  await updateDoc(DocRef, {
+    statut: change.value,
+  })
+
+  watch(change , (odlValue, newValue) =>{
+
+  })
+}
+
 
 //recuperer le pms
 //generer le pdf
@@ -135,7 +150,7 @@ const  makePDF = (client) => {
   pdf.save(client.expediteur)
 
 
-}})
+}
 
 
 
@@ -154,13 +169,24 @@ const  makePDF = (client) => {
              class="h-full w-full object-cover object-center group-hover:opacity-75"/>
       </div>
       <div class="down w-[40%] h-auto">
+        <h1 class="mt-4 text-xl font-medium text-gray-700"> Expéditeur </h1>
         <h1 class="mt-4 text-xl font-medium text-gray-700">{{ client.expediteur }}</h1>
-        <h1 class="mt-4 text-xl font-medium text-gray-700"> Date </h1>
+        <h1 class="mt-4 text-xl font-medium text-gray-700"> Destinataire du Colis </h1>
+        <h1 class="mt-4 text-xl font-medium text-gray-700">{{ client.destinatairef }}</h1>
+        <h1 class="mt-4 text-xl font-medium text-gray-700"> Colis enlevé à : </h1>
         <p class="mt-1 text-sm font-medium text-gray-900" >{{formatDateTime(client.date)}}</p>
-        <h1 class="mt-4 text-xl font-medium text-gray-700"> Description : </h1>
+        <h1 class="mt-4 text-xl font-medium text-gray-700"> Description du colis : </h1>
         <p class="mt-1 text-gray-500 h-auto">{{ client.description }}</p>
         <h1 class="mt-4 text-xl font-medium text-gray-700">Nombre de Colis </h1>
         <p class="mt-1 text-gray-500 h-14">{{client.nombreDeColis }}</p>
+        <p class="mt-4 text-xl font-medium text-gray-700 my-4"> Statut du colis :    <select v-on:change="updateStatut(client.id)"  id="sel" class="sm:select sm:bg-gray-100 bg-gray-100 mobile:w-30 mobile:py-4 mobile:px-4  ">
+            <option selected disabled>{{client.deliveryStatus}}</option>
+          <option disabled> - - - - </option>
+          <option> En attente </option>
+          <option> Envoyé </option>
+          <option> Réceptionné </option>
+        </select></p>
+
         <router-link to="/liste">
         <button class="btn btn-outline text-black shadow-2xl w-full"> Retour </button>
           </router-link>
