@@ -1,12 +1,13 @@
 <script setup>
 
 import {useCollection, useFirestore} from "vuefire";
-import {collection} from "firebase/firestore";
-import {computed, onMounted, ref} from "vue";
+import {collection, doc, getFirestore, updateDoc} from "firebase/firestore";
+import {computed, onMounted, ref , watch} from "vue";
 import {useRoute} from "vue-router";
 import {format} from "date-fns";
 import frLocale from "date-fns/locale/fr";
 import QrcodeVue from "qrcode.vue";
+
 
 
 import {jsPDF} from "jspdf";
@@ -14,7 +15,7 @@ import {StreamBarcodeReader} from "vue-barcode-reader";
 const route = useRoute()
 const db = useFirestore()
 const datas = useCollection(collection(db, 'enlevements'))
-
+const database = getFirestore()
 const detailId = ref(route.params.id)
 
 const client = computed(()=>{
@@ -43,14 +44,12 @@ const formatDateTime = (dateTimeString) => {
 const updateStatut = async (id) => {
   const DocRef = doc(database, "enlevements", id);
  const change = document.getElementById('sel')
-  console.log(change.value)
   await updateDoc(DocRef, {
-    statut: change.value,
+    deliveryStatus: change.value,
   })
 
-  watch(change , (odlValue, newValue) =>{
-
-  })
+  // watch(change , (odlValue, newValue) =>{
+  // })
 }
 
 
@@ -179,13 +178,15 @@ const  makePDF = (client) => {
         <p class="mt-1 text-gray-500 h-auto">{{ client.description }}</p>
         <h1 class="mt-4 text-xl font-medium text-gray-700">Nombre de Colis </h1>
         <p class="mt-1 text-gray-500 h-14">{{client.nombreDeColis }}</p>
-        <p class="mt-4 text-xl font-medium text-gray-700 my-4"> Statut du colis :    <select v-on:change="updateStatut(client.id)"  id="sel" class="sm:select sm:bg-gray-100 bg-gray-100 mobile:w-30 mobile:py-4 mobile:px-4  ">
+        <p class="mt-4 text-xl font-medium text-gray-700 my-4"> Statut du colis :   
+           <select v-on:change="updateStatut(client.id)"  id="sel" class="sm:select sm:bg-gray-100 bg-gray-100 mobile:w-30 mobile:py-4 mobile:px-4  ">
             <option selected disabled>{{client.deliveryStatus}}</option>
           <option disabled> - - - - </option>
           <option> En attente </option>
           <option> Envoyé </option>
           <option> Réceptionné </option>
-        </select></p>
+        </select>
+      </p>
 
         <router-link to="/liste">
         <button class="btn btn-outline text-black shadow-2xl w-full"> Retour </button>
