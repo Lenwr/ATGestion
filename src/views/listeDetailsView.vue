@@ -172,7 +172,7 @@ const  makePDF = (client) => {
         <h1 class="mt-4 text-xl font-medium text-gray-700"> Expéditeur </h1>
         <h1 class="mt-4 text-xl font-medium text-gray-700">{{ client.expediteur }}</h1>
         <h1 class="mt-4 text-xl font-medium text-gray-700"> Destinataire du Colis </h1>
-        <h1 class="mt-4 text-xl font-medium text-gray-700">{{ client.destinatairef }}</h1>
+        <h1 class="mt-4 text-xl font-medium text-gray-700">{{ client.destinataire }}</h1>
         <h1 class="mt-4 text-xl font-medium text-gray-700"> Colis enlevé à : </h1>
         <p class="mt-1 text-sm font-medium text-gray-900" >{{formatDateTime(client.date)}}</p>
         <h1 class="mt-4 text-xl font-medium text-gray-700"> Description du colis : </h1>
