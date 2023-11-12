@@ -1,17 +1,19 @@
 <script setup>
 
 import {useCollection, useFirestore} from "vuefire";
-import {collection, doc, getFirestore, updateDoc} from "firebase/firestore";
+import {collection, deleteDoc, doc, getFirestore, updateDoc} from "firebase/firestore";
 import {computed, onMounted, ref , watch} from "vue";
 import {useRoute} from "vue-router";
 import {format} from "date-fns";
 import frLocale from "date-fns/locale/fr";
 import QrcodeVue from "qrcode.vue";
+import router from "../router/index.js";
 
 
 
 import {jsPDF} from "jspdf";
 import {StreamBarcodeReader} from "vue-barcode-reader";
+import { async } from "@firebase/util";
 const route = useRoute()
 const db = useFirestore()
 const datas = useCollection(collection(db, 'enlevements'))
@@ -27,7 +29,7 @@ const today = new Date()
 
 
 //formatage date
-const formatDateTime = (dateTimeString) => {
+function formatDateTime(dateTimeString){
   const date = new Date(dateTimeString);
   const options = {
     weekday: 'long', // Jour de la semaine (ex: "Mardi")
@@ -41,7 +43,7 @@ const formatDateTime = (dateTimeString) => {
 }
 
 //update deliveryStatus
-const updateStatut = async (id) => {
+async function updateStatut(id){
   const DocRef = doc(database, "enlevements", id);
  const change = document.getElementById('sel')
   await updateDoc(DocRef, {
@@ -52,6 +54,12 @@ const updateStatut = async (id) => {
   // })
 }
 
+//delete customer
+async function deleteCustomer(id){
+  const DocRef = doc(database, "enlevements", id);
+  await deleteDoc(DocRef)
+  await router.push({ path: '/liste' });
+}
 
 //recuperer le pms
 //generer le pdf
@@ -164,11 +172,15 @@ const  makePDF = (client) => {
     <div  class="container flex flex-row py-10">
       <div
           class=" up aspect-h-1  h-[28rem] aspect-w-1 w-[50%] mx-10 overflow-hidden shadow-2xl rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-        <img :src=client.imageUrl :alt="client.imageAlt"
+        <img :src=client.imageUrl 
              class="h-full w-full object-cover object-center group-hover:opacity-75"/>
       </div>
       <div class="down w-[40%] h-auto">
+        <span class="flex flex-row justify-around my-4">
         <h1 class="mt-4 text-xl font-medium text-gray-700"> Expéditeur </h1>
+        <p class="textarea-lg leading-5 border-2 text-black rounded-2xl w-[40%]"
+              :class="{ 'bg-error': client.statut === 'Non Payé', 'bg-secondary': client.statut === 'Reste à payer','bg-white': client.statut === 'Payé' }">{{ client.statut }}</p>
+            </span>
         <h1 class="mt-4 text-xl font-medium text-gray-700">{{ client.expediteur }}</h1>
         <h1 class="mt-4 text-xl font-medium text-gray-700"> Destinataire du Colis </h1>
         <h1 class="mt-4 text-xl font-medium text-gray-700">{{ client.destinataire }}</h1>
@@ -178,7 +190,9 @@ const  makePDF = (client) => {
         <p class="mt-1 text-gray-500 h-auto">{{ client.description }}</p>
         <h1 class="mt-4 text-xl font-medium text-gray-700">Nombre de Colis </h1>
         <p class="mt-1 text-gray-500 h-14">{{client.nombreDeColis }}</p>
-        <p class="mt-4 text-xl font-medium text-gray-700 my-4"> Statut du colis :   
+
+       
+          <p class="mt-4 text-xl font-medium text-gray-700 my-4 " > Statut du colis :   
            <select v-on:change="updateStatut(client.id)"  id="sel" class="sm:select sm:bg-gray-100 bg-gray-100 mobile:w-30 mobile:py-4 mobile:px-4  ">
             <option selected disabled>{{client.deliveryStatus}}</option>
           <option disabled> - - - - </option>
@@ -187,15 +201,22 @@ const  makePDF = (client) => {
           <option> Réceptionné </option>
         </select>
       </p>
-
+      
+    
         <router-link to="/liste">
         <button class="btn btn-outline text-black shadow-2xl w-full"> Retour </button>
           </router-link>
         <button class="btn btn-outline text-black mt-4 shadow-2xl w-full mb-10" @click="makePDF(client)"> Bordereau de livraison </button>
-        <button class="btn btn-outline text-black mt-4 shadow-2xl w-full mb-10" onclick="qrCode.showModal()">Générer code Qr</button>
+        <button class="btn btn-outline text-black mt-2 shadow-2xl w-full mb-2" onclick="qrCode.showModal()">Générer code Qr</button>
+        <span class="flex flex-row justify-around items-center">
+          <a><button class="bn632-hover  bg-primary mx-1 "> Modifier</button></a>
+          <a @click="deleteCustomer(client.id)"><button class="bn632-hover bn28 mx-1 "> Supprimer</button></a>
+     
+        </span>
       </div>
 
 
+<!-- Mise en place du Qr Code  -->
       <dialog id="qrCode" class="modal">
         <div class="modal-box bg-white">
           <h3 class="font-bold text-lg text-black">QrCode de {{client.expediteur}}</h3>
@@ -214,6 +235,16 @@ const  makePDF = (client) => {
     </div>
 
   </div>
+
+<!-- Mise en place de l alerte de suppression client  -->
+
+
+
+
+
+
+
+
 </template>
 
 <style scoped>
@@ -230,4 +261,49 @@ const  makePDF = (client) => {
     align-self: center;
   }
 }
+
+
+.bn632-hover {
+  width: 160px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  margin-bottom: 50px;
+  margin-top: 20px;
+  height: 55px;
+  text-align:center;
+  border: none;
+  background-size: 300% 100%;
+  border-radius: 50px;
+  -moz-transition: all .4s ease-in-out;
+  -o-transition: all .4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+
+.bn632-hover:hover {
+  background-position: 100% 0;
+  -moz-transition: all .4s ease-in-out;
+  -o-transition: all .4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+
+.bn632-hover:focus {
+  outline: none;
+}
+
+.bn632-hover.bn28 {
+  background-image: linear-gradient(
+    to right,
+    #eb3941,
+    #f15e64,
+    #e14e53,
+    #e2373f
+  );
+  box-shadow: 0 5px 15px rgba(242, 97, 103, 0.4);
+}
+
+
 </style>

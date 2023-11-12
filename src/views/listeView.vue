@@ -99,20 +99,9 @@ const filteredList = computed(() => {
   <div class="bg-white h-auto flex flex-col  items-center">
 
     <return route=''/>
-
-
-    <!-- <div class="tabs bg-neutral-100 w-screen tabs-boxed">
-      <a v-for="destination in destinations" :key="destination"
-         :class="{ 'tab text-black': true, 'bg-secondary': isTabActive(destination) }"
-         @click="selectedDestination = destination">{{ destination }}</a>
-    </div> -->
     <div class=" my-2 w-[95%] shadow-2xl ">
-
-
-
-
               <form class="">
-            <div class="flex ">
+            <div class="flex mb ">
                <details class="dropdown country bg-white  text-black">
                   <summary class=" hover:cursor-pointer flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-black bg-gray-100 border border-gray-300 rounded-s-lg `"> Pays </summary>
                   <ul class="p-2 shadow menu dropdown-content z-[1] bg-white rounded-box w-52" >
@@ -142,13 +131,13 @@ const filteredList = computed(() => {
 
     </div>
     <div class="w-screen px-4 rounded-2xl ">
-      <ul role="list" class="divide-y divide-gray-100 bg-white">
+      <ul role="list" class="divide-y divide-gray-100 bg-white mb-20 ">
         <router-link v-for="liste in filteredList" :key="liste.id" :to="'/liste/' + liste.id">
           <li class="flex mobile:flex-col  justify-between gap-x-6  py-5" >
             <div class="flex min-w-0 gap-x-4">
               <img class="mt-2 h-20 w-20 flex-none rounded bg-gray-50" :src="liste.imageUrl" alt=""/>
               <div class="min-w-0 flex-auto">
-                <p class="text-sm font-semibold leading-6" :class="{ 'text-error': liste.statut === 'Non Payé', 'text-secondary': liste.statut === 'Reste à payer','text-black': liste.statut === 'Payé' }">Nom de l'expéditeur: {{ liste.expediteur }}</p>
+                <p class="text-sm font-semibold leading-6  text-black" >Nom de l'expéditeur: {{ liste.expediteur }}</p>
                 <p class="mt-1 truncate text-xs leading-3 text-gray-500">Description : {{ liste.description }}</p>
                 <p class="mt-1 truncate text-xs leading-5 text-gray-500">Nombre de coli : {{ liste.nombreDeColis }}</p>
                 <p class="mt-1 truncate text-xs leading-5 text-gray-500" v-if="liste.date" ref="date">
@@ -157,6 +146,8 @@ const filteredList = computed(() => {
             </div>
             <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
               <p class="textarea-lg leading-5 text-gray-500">{{ liste.destination }}</p>
+              <p class="textarea-lg leading-5 border-2 text-black rounded-2xl"
+              :class="{ 'bg-error': liste.statut === 'Non Payé', 'bg-secondary': liste.statut === 'Reste à payer','bg-white': liste.statut === 'Payé' }">{{ liste.statut }}</p>
             </div>
           </li>
         </router-link>
