@@ -7,7 +7,6 @@ import {
   getFirestore,
   updateDoc,
 } from 'firebase/firestore'
-import { debounce } from 'lodash';
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { format } from 'date-fns'
@@ -18,7 +17,6 @@ import router from '../router/index.js'
 import { jsPDF } from 'jspdf'
 import { StreamBarcodeReader } from 'vue-barcode-reader'
 import { async } from '@firebase/util'
-import { update } from 'lodash'
 const route = useRoute()
 const db = useFirestore()
 const datas = useCollection(collection(db, 'enlevements'))
@@ -29,42 +27,42 @@ const detailId = ref(route.params.id)
 const client = computed(() => {
   return datas.value.find((detail) => detail.id === detailId.value)
 })
-// const customer = ref({
-//         expediteur: '',
-//         statut: '',
-//         telephoneExpediteur: '',
-//         destinataire: '',
-//         telephoneDestinataire: '',
-//         typeDeFret: '',
-//         destination: '',
-//         nombreDeColis: '',
-//         description: '',
-//         personneEnCharge: '',
-//         prix: '',
-//         modeDePaiement: '',
-//         resteAPayer:'',
-//         date: '',
-//         image: null,
-// })
+const customer = ref({
+        expediteur: '',
+        statut: '',
+        telephoneExpediteur: '',
+        destinataire: '',
+        telephoneDestinataire: '',
+        typeDeFret: '',
+        destination: '',
+        nombreDeColis: '',
+        description: '',
+        personneEnCharge: '',
+        prix: '',
+        modeDePaiement: '',
+        resteAPayer:'',
+        date: '',
+        image: null,
+})
 
 const today = new Date()
 
 //update
-// const docRef = doc(db , "enlevements" , detailId.value)
-// const clientSource = useDocument(docRef)
+const docRef = doc(db , "enlevements" , detailId.value)
+const clientSource = useDocument(docRef)
 
-// watch(clientSource , (clientSource)=>{
-//     customer.value = {
-//       ...clientSource,
-//     }
-// })
+watch(clientSource , (clientSource)=>{
+    customer.value = {
+      ...clientSource,
+    }
+})
 
-// async function updateCustomer(){
-//   const updateCustomerDoc = await updateDoc(docRef,{
-//     ...customer.value
+async function updateCustomer(){
+  const updateCustomerDoc = await updateDoc(docRef,{
+    ...customer.value
     
-//   })
-// }
+  })
+}
 //formatage date
 function formatDateTime(dateTimeString) {
   const date = new Date(dateTimeString)
@@ -80,24 +78,24 @@ function formatDateTime(dateTimeString) {
 }
 
 //update deliveryStatus
-// async function updateStatut(id) {
-//   const DocRef = doc(database, 'enlevements', id)
-//   const change = document.getElementById('sel')
-//   await updateDoc(DocRef, {
-//     deliveryStatus: change.value,
-//   })
+async function updateStatut(id) {
+  const DocRef = doc(database, 'enlevements', id)
+  const change = document.getElementById('sel')
+  await updateDoc(DocRef, {
+    deliveryStatus: change.value,
+  })
 
   // watch(change , (odlValue, newValue) =>{
   // })
 }
 
 //delete customer
-// async function deleteCustomer(id) {
-//   const DocRef = doc(database, 'enlevements', id)
-//   await deleteDoc(DocRef)
+async function deleteCustomer(id) {
+  const DocRef = doc(database, 'enlevements', id)
+  await deleteDoc(DocRef)
  
-//   await router.push({ path: '/liste' })
-// }
+  await router.push({ path: '/liste' })
+}
 
 //recuperer le pms
 //generer le pdf
@@ -269,7 +267,7 @@ const makePDF = (client) => {
         >
           Générer code Qr
         </button>
-        <!-- <span class="flex flex-row justify-around items-center">
+        <span class="flex flex-row justify-around items-center">
           <a>
             <button
               class="bn632-hover bg-primary mx-1"
@@ -282,7 +280,7 @@ const makePDF = (client) => {
           >
             <button class="bn632-hover bn28  mx-1" onclick="my_delete_modal.showModal()" >Supprimer</button>
           </a>
-        </span> -->
+        </span>
         
       </div>
 
@@ -323,7 +321,7 @@ const makePDF = (client) => {
 
 
   <!-- Mise en place des modifications de données du client -->
-  <!-- <dialog id="update" class="modal">
+  <dialog id="update" class="modal">
     <div class="modal-box  bg-white text-black ">
       <h3 class="font-bold text-lg"> Modifier {{ clientSource?.expediteur ? clientSource.expediteur : '' }} </h3>
       <form class="space-y-6" @submit.prevent="updateCustomer">
@@ -646,7 +644,7 @@ const makePDF = (client) => {
         </form>
       </div>
     </div>
-  </dialog> -->
+  </dialog> 
 </template>
 
 <style scoped>
@@ -663,7 +661,7 @@ const makePDF = (client) => {
     align-self: center;
   }
 }
-/* 
+
 .bn632-hover {
   width: 160px;
   font-size: 16px;
@@ -704,5 +702,5 @@ const makePDF = (client) => {
     #e2373f
   );
   box-shadow: 0 5px 15px rgba(242, 97, 103, 0.4);
-} */
+}
 </style>
