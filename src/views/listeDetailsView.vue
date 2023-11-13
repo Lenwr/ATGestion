@@ -15,8 +15,8 @@ import QrcodeVue from 'qrcode.vue'
 import router from '../router/index.js'
 
 import { jsPDF } from 'jspdf'
-import { StreamBarcodeReader } from 'vue-barcode-reader'
-import { async } from '@firebase/util'
+// import { StreamBarcodeReader } from 'vue-barcode-reader'
+// import { async } from '@firebase/util'
 const route = useRoute()
 const db = useFirestore()
 const datas = useCollection(collection(db, 'enlevements'))
@@ -327,23 +327,7 @@ const makePDF = (client) => {
       <form class="space-y-6" @submit.prevent="updateCustomer">
         <div class="date mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div class="sm:col-span-3">
-            <label
-              for="date"
-              class="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Date
-            </label>
-            <div class="mt-2">
-              <input
-                type="datetime-local"
-                name="date"
-                v-model="customer.date"
-                id="date"
-                autocomplete="given-name"
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-               
-              />
-            </div>
+         
           </div>
         </div>
 
@@ -505,21 +489,7 @@ const makePDF = (client) => {
         </div>
 
         <div>
-          <label
-            class="block text-sm font-medium leading-6 text-gray-900"
-            for="image"
-          >
-            Photos du coli
-          </label>
-          <div class="mt-2">
-            <input
-              type="file"
-              id="image"
-              @change="handleFileChange"
-              accept="image/*"
-              class="block bg-white file-input max-w-xs w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
+     
         </div>
 
         <div class="personneEnCharge">
