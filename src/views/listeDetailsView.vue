@@ -269,7 +269,7 @@ const makePDF = (client) => {
         >
           Générer code Qr
         </button>
-        <span class="flex flex-row justify-around items-center">
+        <!-- <span class="flex flex-row justify-around items-center">
           <a>
             <button
               class="bn632-hover bg-primary mx-1"
@@ -282,7 +282,7 @@ const makePDF = (client) => {
           >
             <button class="bn632-hover bn28  mx-1" onclick="my_delete_modal.showModal()" >Supprimer</button>
           </a>
-        </span>
+        </span> -->
         
       </div>
 
@@ -323,7 +323,7 @@ const makePDF = (client) => {
 
 
   <!-- Mise en place des modifications de données du client -->
-  <dialog id="update" class="modal">
+  <!-- <dialog id="update" class="modal">
     <div class="modal-box  bg-white text-black ">
       <h3 class="font-bold text-lg"> Modifier {{ clientSource?.expediteur ? clientSource.expediteur : '' }} </h3>
       <form class="space-y-6" @submit.prevent="updateCustomer">
@@ -646,7 +646,7 @@ const makePDF = (client) => {
         </form>
       </div>
     </div>
-  </dialog>
+  </dialog> -->
 </template>
 
 <style scoped>
@@ -663,7 +663,7 @@ const makePDF = (client) => {
     align-self: center;
   }
 }
-
+/* 
 .bn632-hover {
   width: 160px;
   font-size: 16px;
@@ -704,5 +704,5 @@ const makePDF = (client) => {
     #e2373f
   );
   box-shadow: 0 5px 15px rgba(242, 97, 103, 0.4);
-}
+} */
 </style>
