@@ -29,42 +29,42 @@ const detailId = ref(route.params.id)
 const client = computed(() => {
   return datas.value.find((detail) => detail.id === detailId.value)
 })
-const customer = ref({
-        expediteur: '',
-        statut: '',
-        telephoneExpediteur: '',
-        destinataire: '',
-        telephoneDestinataire: '',
-        typeDeFret: '',
-        destination: '',
-        nombreDeColis: '',
-        description: '',
-        personneEnCharge: '',
-        prix: '',
-        modeDePaiement: '',
-        resteAPayer:'',
-        date: '',
-        image: null,
-})
+// const customer = ref({
+//         expediteur: '',
+//         statut: '',
+//         telephoneExpediteur: '',
+//         destinataire: '',
+//         telephoneDestinataire: '',
+//         typeDeFret: '',
+//         destination: '',
+//         nombreDeColis: '',
+//         description: '',
+//         personneEnCharge: '',
+//         prix: '',
+//         modeDePaiement: '',
+//         resteAPayer:'',
+//         date: '',
+//         image: null,
+// })
 
 const today = new Date()
 
 //update
-const docRef = doc(db , "enlevements" , detailId.value)
-const clientSource = useDocument(docRef)
+// const docRef = doc(db , "enlevements" , detailId.value)
+// const clientSource = useDocument(docRef)
 
-watch(clientSource , (clientSource)=>{
-    customer.value = {
-      ...clientSource,
-    }
-})
+// watch(clientSource , (clientSource)=>{
+//     customer.value = {
+//       ...clientSource,
+//     }
+// })
 
-async function updateCustomer(){
-  const updateCustomerDoc = await updateDoc(docRef,{
-    ...customer.value
+// async function updateCustomer(){
+//   const updateCustomerDoc = await updateDoc(docRef,{
+//     ...customer.value
     
-  })
-}
+//   })
+// }
 //formatage date
 function formatDateTime(dateTimeString) {
   const date = new Date(dateTimeString)
@@ -80,24 +80,24 @@ function formatDateTime(dateTimeString) {
 }
 
 //update deliveryStatus
-async function updateStatut(id) {
-  const DocRef = doc(database, 'enlevements', id)
-  const change = document.getElementById('sel')
-  await updateDoc(DocRef, {
-    deliveryStatus: change.value,
-  })
+// async function updateStatut(id) {
+//   const DocRef = doc(database, 'enlevements', id)
+//   const change = document.getElementById('sel')
+//   await updateDoc(DocRef, {
+//     deliveryStatus: change.value,
+//   })
 
   // watch(change , (odlValue, newValue) =>{
   // })
 }
 
 //delete customer
-async function deleteCustomer(id) {
-  const DocRef = doc(database, 'enlevements', id)
-  await deleteDoc(DocRef)
+// async function deleteCustomer(id) {
+//   const DocRef = doc(database, 'enlevements', id)
+//   await deleteDoc(DocRef)
  
-  await router.push({ path: '/liste' })
-}
+//   await router.push({ path: '/liste' })
+// }
 
 //recuperer le pms
 //generer le pdf
