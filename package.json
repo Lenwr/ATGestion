@@ -20,6 +20,7 @@
     "date-fns": "^2.30.0",
     "firebase": "^10.4.0",
     "jspdf": "^2.5.1",
+    "lodash": "^4.17.21",
     "qrcode.vue": "^3.4.1",
     "vue": "^3.3.4",
     "vue-barcode-reader": "^1.0.3",
