@@ -21,8 +21,8 @@ export default {
 <div class="flex flex-col items-center h-screen px-[10%]  py-[10%]" >
 
   <p v-if="displayName" class="text-black bg-primary px-4 py-4 mb-[10%] rounded shadow-2xl font-bold"  >  {{displayName}} </p>
-
-<img class="mobile:rounded-xl mobile:w-[50%] mobile:shadow-2xl sm:hidden " src="/images/logo.png" alt="" srcset="">
+<!-- 
+<img class="mobile:rounded-xl mobile:w-[50%] mobile:shadow-2xl sm:hidden " src="/images/logo.png" alt="" srcset=""> -->
 
   <div class="collapse bg-primary mt-[10%]">
     <input type="checkbox" class="peer" />

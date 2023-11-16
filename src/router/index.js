@@ -1,57 +1,57 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import HomeView from "../views/HomeView.vue";
-import Form from "../views/form.vue";
-import ListeView from "../views/listeView.vue";
-import ListeDetailsView from "../views/listeDetailsView.vue";
-import SignUpFormView from "../views/signUpFormView.vue";
-import App from "../App.vue";
-import QrCodeView from "../views/planingCalendarView.vue";
-import SoumissionFormulaire from "../views/soumissionFormulaire.vue";
-import Scan from "../views/scan.vue";
-import PlaningCalendarView from "../views/planingCalendarView.vue";
-
+import HomeView from '../views/HomeView.vue'
+import Form from '../views/form.vue'
+import ListeView from '../views/listeView.vue'
+import ListeDetailsView from '../views/listeDetailsView.vue'
+import SignUpFormView from '../views/signUpFormView.vue'
+import App from '../App.vue'
+import QrCodeView from '../views/planingCalendarView.vue'
+import SoumissionFormulaire from '../views/soumissionFormulaire.vue'
+import Scan from '../views/scan.vue'
+import PlaningCalendarView from '../views/planingCalendarView.vue'
+import DailyTasksAppView from '../views/dailyTasks/DailyTasksAppView.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
-  linkActiveClass:'classActive',
+  linkActiveClass: 'classActive',
   routes: [
     {
       path: '/',
-      component: HomeView
+      component: HomeView,
     },
     {
       path: '/form',
-      component: Form
+      component: Form,
     },
     {
       path: '/liste',
-      component: ListeView
+      component: ListeView,
     },
     {
       path: '/liste/:id',
-      component: ListeDetailsView
+      component: ListeDetailsView,
     },
     {
       path: '/qrcode',
-      component: QrCodeView
+      component: QrCodeView,
     },
     {
       path: '/soumission',
-      component: SoumissionFormulaire
+      component: SoumissionFormulaire,
     },
     {
       path: '/scan',
-      component: Scan
+      component: Scan,
     },
     {
       path: '/planing',
-      component: PlaningCalendarView
+      component: PlaningCalendarView,
     },
-  ]
+    {
+      path: '/dailyTasks',
+      component: DailyTasksAppView,
+    },
+  ],
 })
 
-
 export default router
-
-
-

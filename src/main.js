@@ -5,6 +5,7 @@ import App from './App.vue'
 import router from './router'
 import {firebaseApp} from "./components/firebaseConfig.js";
 import {VueFire} from "vuefire";
+import { createPinia } from 'pinia';
 const app = createApp(App)
 
 
@@ -17,4 +18,5 @@ app.use(VueFire, {
         // we will see other modules later on
     ],
 })
+app.use(createPinia())
 app.mount('#app')

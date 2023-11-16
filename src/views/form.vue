@@ -70,6 +70,7 @@ async function submitForm(){
   }
 };
 
+
 </script>
 
 
@@ -83,6 +84,7 @@ async function submitForm(){
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      
      <form class="space-y-6"  @submit.prevent="submitForm"  >
 
         <div class="date mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
