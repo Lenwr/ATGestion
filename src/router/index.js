@@ -9,7 +9,7 @@ import QrCodeView from '../views/planingCalendarView.vue'
 import SoumissionFormulaire from '../views/soumissionFormulaire.vue'
 import Scan from '../views/scan.vue'
 import PlaningCalendarView from '../views/planingCalendarView.vue'
-import DailyTasksAppView from '../views/dailyTasks/DailyTasksAppView.vue'
+//import DailyTasksAppView from '../views/dailyTasks/DailyTasksAppView.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -47,10 +47,10 @@ const router = createRouter({
       path: '/planing',
       component: PlaningCalendarView,
     },
-    {
-      path: '/dailyTasks',
-      component: DailyTasksAppView,
-    },
+    // {
+    //   path: '/dailyTasks',
+    //   component: DailyTasksAppView,
+    // },
   ],
 })
 
