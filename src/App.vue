@@ -141,7 +141,12 @@ export default {
           <li v-if="isLoggedIn" class="text-white text-2xl">
             {{ displayName }}
           </li>
-
+          <li v-if="isLoggedIn" class="text-white">
+            <router-link to="/form">Enregistrer un enlevement</router-link>
+          </li>
+          <li v-if="isLoggedIn" class="text-white">
+            <router-link to="/liste">Mes clients</router-link>
+          </li>
           <li v-if="isLoggedIn" class="text-white">
             <router-link to="/planing">Planing</router-link>
           </li>
