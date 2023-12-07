@@ -3,8 +3,9 @@ import LoginFormView from './views/loginFormView.vue'
 import SignUpFormView from './views/signUpFormView.vue'
 import { auth } from './components/firebaseConfig.js'
 import { signOut } from 'firebase/auth'
+import NavBar from './components/navBar.vue'
 export default {
-  components: { SignUpFormView, LoginFormView },
+  components: { SignUpFormView, LoginFormView, NavBar },
   data() {
     return {
       isLoggedIn: true,
@@ -28,7 +29,13 @@ export default {
 </script>
 
 <template>
+  <div>
+    <navBarVue />
+  </div>
+
   <div class="bg-white">
+    <NavBar />
+
     <div class="drawer">
       <input id="my-drawer" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content">
@@ -70,7 +77,7 @@ export default {
           </div>
         </div>
 
-        <div v-if="isLoggedIn" class="btm-nav bg-primary">
+        <div v-if="isLoggedIn" class="btm-nav bg-base-100">
           <router-link to="/">
             <button class="text-white">
               <svg
@@ -140,12 +147,6 @@ export default {
           <!-- Sidebar content here -->
           <li v-if="isLoggedIn" class="text-white text-2xl">
             {{ displayName }}
-          </li>
-          <li v-if="isLoggedIn" class="text-white">
-            <router-link to="/form">Enregistrer un enlevement</router-link>
-          </li>
-          <li v-if="isLoggedIn" class="text-white">
-            <router-link to="/liste">Mes clients</router-link>
           </li>
           <li v-if="isLoggedIn" class="text-white">
             <router-link to="/planing">Planing</router-link>

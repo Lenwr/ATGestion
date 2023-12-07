@@ -1,20 +1,53 @@
 <script setup>
-import { getFirestore, collection, addDoc } from 'firebase/firestore'
+import { useCollection, useFirestore } from 'vuefire'
+import { collection, addDoc } from 'firebase/firestore'
+import { computed, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { format } from 'date-fns'
+import frLocale from 'date-fns/locale/fr'
 import {
   getStorage,
   ref as storageRef,
   uploadBytes,
   getDownloadURL,
 } from 'firebase/storage'
-import { ref } from 'vue'
-import Return from '../components/return.vue'
-import router from '../router/index.js'
-import SelectCustomersView from './selectCustomersView.vue'
+
+const route = useRoute()
+const db = useFirestore()
+const Liste = useCollection(collection(db, 'customers'))
+const ListeColis = useCollection(collection(db, 'enlevements'))
+const enlevementsCollection = collection(db, 'enlevements')
+const detailId = ref(route.params.id)
+const myId = detailId.value
+console.log(myId)
+
+const liste = computed(() => {
+  return Liste.value.find((detail) => detail.id === detailId.value)
+})
+console.log(liste)
+const listeColis = computed(() => {
+  return ListeColis.value.filter(
+    (detail) => detail.customerId === myId,
+  )
+})
+
+const formatDateTime = (dateTimeString) => {
+  const date = new Date(dateTimeString)
+  const options = {
+    weekday: 'long', // Jour de la semaine (ex: "Mardi")
+    day: 'numeric', // Jour du mois (ex: "9")
+    month: 'long', // Mois (ex: "décembre")
+    year: 'numeric', // Année (ex: "2023")
+    hour: 'numeric', // Heure (ex: "20")
+    minute: 'numeric', // Minute (ex: "13")
+  }
+  return format(date, "EEEE d MMMM yyyy à HH'h' mm", { locale: frLocale })
+}
 
 const customer = ref({
   expediteur: '',
   statut: '',
-  telephoneExpediteur: '',
+  telephoneExpediteur: liste.telephone,
   destinataire: '',
   telephoneDestinataire: '',
   typeDeFret: '',
@@ -27,17 +60,16 @@ const customer = ref({
   resteAPayer: '',
   date: '',
   image: null,
+  customerId: myId,
 })
 
-const db = getFirestore()
-const enlevementsCollection = collection(db, 'enlevements')
 const storage = getStorage()
 
 const handleFileChange = (event) => {
   customer.image = event.target.files[0]
 }
 
-async function submitForm() {
+async function send() {
   try {
     // Téléchargez l'image vers Firebase Storage
     const imageRef = storageRef(
@@ -65,53 +97,53 @@ async function submitForm() {
       resteAPayer: customer.value.resteAPayer,
       date: customer.value.date,
       deliveryStatus: 'En attente',
+      customerId: customer.value.customerId,
     }
 
     console.log(Data)
     const newDocumentRef = await addDoc(enlevementsCollection, Data)
     console.log('Document ajouté avec ID :', newDocumentRef.id)
-    await router.push({ path: '/soumission' })
+    await console.log('this work')
   } catch (error) {
     console.error("Erreur lors de l'envoi du formulaire :", error)
   }
 }
-
-//update deliveryStatus
-async function submitEnlevement(id) {
-  const DocRef = doc(database, 'customers', id)
-  const change = document.getElementById('sel')
-  await updateDoc(DocRef, {
-    deliveryStatus: change.value,
-  })
-
-  // watch(change , (odlValue, newValue) =>{
-  // })
-}
 </script>
 
 <template>
-  <!-- <return route="" /> -->
-  <div
-    class="bg-white flex h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8"
-  >
-    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <img
-        class="mx-auto h-[10em] w-auto"
-        src="/images/people.png"
-        alt="aaron-travel"
-      />
-      <h2
-        class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
-      >
-        Enregistrer un client
-      </h2>
-    </div>
-    <div>
-      <SelectCustomersView />
-    </div>
+  <div class="flex flex-col items-center">
+    <span
+      class="bg-primary my-5 px-10 rounded-md shadow-2xl text-[2em] text-white"
+    >
+      Enlèvements
+    </span>
+    <p v-for="item in liste" :key="item"></p>
+    <span
+      class="bg-primary my-5 px-10 rounded-md shadow-2xl text-[2em] text-white"
+      onclick="send.showModal()"
+    >
+      Nouvel Envoi
+    </span>
 
-    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form class="space-y-6" @submit.prevent="submitForm">
+    <div class="flex flex-col w-full">
+      <div
+        v-for="(item, i) in listeColis"
+        :key="i"
+        class="bg-[#EFFAED] px-6 text-[1em] h-[5em] w-full text-black flex items-center justify-center"
+      >
+        <span class="text-black px-4">
+          Enlevement du {{ formatDateTime(item.date) }}
+        </span>
+        <router-link :to="'/liste/' + item.id">
+          <button class="btn outline-secondary">voir</button>
+        </router-link>
+      </div>
+    </div>
+  </div>
+
+  <dialog id="send" class="modal">
+    <div class="modal-box bg-white text-black">
+      <form class="space-y-6" @submit.prevent="send">
         <div class="date mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div class="sm:col-span-3">
             <label
@@ -146,7 +178,6 @@ async function submitEnlevement(id) {
               name="expediteur"
               v-model="customer.expediteur"
               class="block h-[3em] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-4"
-              placeholder="Nom et prénoms"
             />
           </div>
         </div>
@@ -165,7 +196,6 @@ async function submitEnlevement(id) {
               name="telephoneExpediteur"
               v-model="customer.telephoneExpediteur"
               class="block h-[3em] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-4"
-              placeholder="Telephone"
             />
           </div>
         </div>
@@ -183,7 +213,6 @@ async function submitEnlevement(id) {
               name="destinataire"
               v-model="customer.destinataire"
               class="block h-[3em] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-4"
-              placeholder="Nom et prénoms"
             />
           </div>
         </div>
@@ -202,7 +231,6 @@ async function submitEnlevement(id) {
               name="telephoneDestinataire"
               v-model="customer.telephoneDestinataire"
               class="block h-[3em] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-4"
-              placeholder="Telephone"
             />
           </div>
         </div>
@@ -264,7 +292,6 @@ async function submitEnlevement(id) {
               name="nombreDeColis"
               v-model="customer.nombreDeColis"
               class="block h-[3em] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-4"
-              placeholder="Vous avez combien de colis ?"
             />
           </div>
         </div>
@@ -283,7 +310,6 @@ async function submitEnlevement(id) {
               v-model="customer.description"
               type="text"
               class="block h-[3em] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-4"
-              placeholder="Cartons , Frigo . . . . "
             />
           </div>
         </div>
@@ -365,7 +391,6 @@ async function submitEnlevement(id) {
               name="prix"
               v-model="customer.prix"
               class="block h-[3em] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-4"
-              placeholder="Prix total"
             />
           </div>
         </div>
@@ -405,7 +430,6 @@ async function submitEnlevement(id) {
               id="resteAPayer"
               name="resteAPayer"
               class="block h-[3em] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-4"
-              placeholder="Prix total"
             />
           </div>
         </div>
@@ -419,8 +443,11 @@ async function submitEnlevement(id) {
           </button>
         </div>
       </form>
+      <div class="modal-action">
+        <form method="dialog">
+          <button class="btn btn-error text-white">Fermer</button>
+        </form>
+      </div>
     </div>
-  </div>
+  </dialog>
 </template>
-
-<style scoped></style>

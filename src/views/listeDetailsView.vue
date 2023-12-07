@@ -1,5 +1,5 @@
 <script setup>
-import { useCollection, useFirestore ,  useDocument} from 'vuefire'
+import { useCollection, useFirestore, useDocument } from 'vuefire'
 import {
   collection,
   deleteDoc,
@@ -23,44 +23,42 @@ const datas = useCollection(collection(db, 'enlevements'))
 const database = getFirestore()
 const detailId = ref(route.params.id)
 
-
 const client = computed(() => {
   return datas.value.find((detail) => detail.id === detailId.value)
 })
 const customer = ref({
-        expediteur: '',
-        statut: '',
-        telephoneExpediteur: '',
-        destinataire: '',
-        telephoneDestinataire: '',
-        typeDeFret: '',
-        destination: '',
-        nombreDeColis: '',
-        description: '',
-        personneEnCharge: '',
-        prix: '',
-        modeDePaiement: '',
-        resteAPayer:'',
-        date: '',
-        image: null,
+  expediteur: '',
+  statut: '',
+  telephoneExpediteur: '',
+  destinataire: '',
+  telephoneDestinataire: '',
+  typeDeFret: '',
+  destination: '',
+  nombreDeColis: '',
+  description: '',
+  personneEnCharge: '',
+  prix: '',
+  modeDePaiement: '',
+  resteAPayer: '',
+  date: '',
+  image: null,
 })
 
 const today = new Date()
 
 //update
-const docRef = doc(db , "enlevements" , detailId.value)
+const docRef = doc(db, 'enlevements', detailId.value)
 const clientSource = useDocument(docRef)
 
-watch(clientSource , (clientSource)=>{
-    customer.value = {
-      ...clientSource,
-    }
+watch(clientSource, (clientSource) => {
+  customer.value = {
+    ...clientSource,
+  }
 })
 
-async function updateCustomer(){
-  const updateCustomerDoc = await updateDoc(docRef,{
-    ...customer.value
-    
+async function updateCustomer() {
+  const updateCustomerDoc = await updateDoc(docRef, {
+    ...customer.value,
   })
 }
 //formatage date
@@ -93,7 +91,7 @@ async function updateStatut(id) {
 async function deleteCustomer(id) {
   const DocRef = doc(database, 'enlevements', id)
   await deleteDoc(DocRef)
- 
+
   await router.push({ path: '/liste' })
 }
 
@@ -225,7 +223,7 @@ const makePDF = (client) => {
           {{ client.destinataire }}
         </h1>
         <h1 class="mt-4 text-xl font-medium text-gray-700">Colis enlevé à :</h1>
-        <p class="mt-1 text-sm font-medium text-gray-900">
+        <p v-if="client.date" class="mt-1 text-sm font-medium text-gray-900">
           {{ formatDateTime(client.date) }}
         </p>
         <h1 class="mt-4 text-xl font-medium text-gray-700">
@@ -276,12 +274,15 @@ const makePDF = (client) => {
               Modifier
             </button>
           </a>
-          <a @click="deleteCustomer(client.id)"
-          >
-            <button class="bn632-hover bn28  mx-1" onclick="my_delete_modal.showModal()" >Supprimer</button>
+          <a @click="deleteCustomer(client.id)">
+            <button
+              class="bn632-hover bn28 mx-1"
+              onclick="my_delete_modal.showModal()"
+            >
+              Supprimer
+            </button>
           </a>
         </span>
-        
       </div>
 
       <!-- Mise en place du Qr Code  -->
@@ -307,28 +308,27 @@ const makePDF = (client) => {
 
   <!-- Mise en place de l alerte de suppression client  -->
   <dialog id="my_delete_modal" class="modal">
-  <div class="modal-box">
-    <h3 class="font-bold text-lg"> Suppression éffectué </h3>
-    <p class="py-4">Le client {{ client.expediteur }} à été supprimé </p>
-    <div class="modal-action">
-      <form method="dialog">
-        <!-- if there is a button in form, it will close the modal -->
-        <button class="btn">Fermer</button>
-      </form>
+    <div class="modal-box">
+      <h3 class="font-bold text-lg">Suppression éffectué</h3>
+      <p class="py-4">Le client {{ client.expediteur }} à été supprimé</p>
+      <div class="modal-action">
+        <form method="dialog">
+          <!-- if there is a button in form, it will close the modal -->
+          <button class="btn">Fermer</button>
+        </form>
+      </div>
     </div>
-  </div>
-</dialog>
-
+  </dialog>
 
   <!-- Mise en place des modifications de données du client -->
   <dialog id="update" class="modal">
-    <div class="modal-box  bg-white text-black ">
-      <h3 class="font-bold text-lg"> Modifier {{ clientSource?.expediteur ? clientSource.expediteur : '' }} </h3>
+    <div class="modal-box bg-white text-black">
+      <h3 class="font-bold text-lg">
+        Modifier {{ clientSource?.expediteur ? clientSource.expediteur : '' }}
+      </h3>
       <form class="space-y-6" @submit.prevent="updateCustomer">
         <div class="date mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div class="sm:col-span-3">
-         
-          </div>
+          <div class="sm:col-span-3"></div>
         </div>
 
         <div>
@@ -488,9 +488,7 @@ const makePDF = (client) => {
           </div>
         </div>
 
-        <div>
-     
-        </div>
+        <div></div>
 
         <div class="personneEnCharge">
           <label
@@ -614,7 +612,7 @@ const makePDF = (client) => {
         </form>
       </div>
     </div>
-  </dialog> 
+  </dialog>
 </template>
 
 <style scoped>

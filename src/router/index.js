@@ -9,7 +9,11 @@ import QrCodeView from '../views/planingCalendarView.vue'
 import SoumissionFormulaire from '../views/soumissionFormulaire.vue'
 import Scan from '../views/scan.vue'
 import PlaningCalendarView from '../views/planingCalendarView.vue'
-//import DailyTasksAppView from '../views/dailyTasks/DailyTasksAppView.vue'
+import CustomersView from '../views/customersView.vue'
+import CustomersFormView from '../views/customersFormView.vue'
+import CustomersDetailsView from '../views/customersDetailsView.vue'
+import SelectCustomersView from '../views/selectCustomersView.vue'
+import DailyTasksAppView from '../views/dailyTasks/DailyTasksAppView.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -47,10 +51,26 @@ const router = createRouter({
       path: '/planing',
       component: PlaningCalendarView,
     },
-    // {
-    //   path: '/dailyTasks',
-    //   component: DailyTasksAppView,
-    // },
+    {
+      path: '/customersForm',
+      component: CustomersFormView,
+    },
+    {
+      path: '/customers',
+      component: CustomersView,
+    },
+    {
+      path: '/customersDetails/:id',
+      component: CustomersDetailsView,
+    },
+    {
+      path: '/selectForm',
+      component: SelectCustomersView,
+    },
+    {
+      path: '/dailyTasks',
+      component: DailyTasksAppView,
+    },
   ],
 })
 

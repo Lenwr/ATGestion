@@ -1,0 +1,144 @@
+<script setup>
+import { useCollection, useFirestore } from 'vuefire'
+import { collection, updateDoc, doc, getFirestore } from 'firebase/firestore'
+import { computed, ref } from 'vue'
+import Return from '../components/return.vue'
+
+const db = useFirestore()
+const database = getFirestore()
+
+const Liste = useCollection(collection(db, 'customers'))
+
+//test gildas
+const query = ref('')
+let filteredList = Liste
+async function listFilter() {
+  filteredList = computed(() => {
+    const lowerCaseQuery = query.value.toLowerCase().trim()
+    return Liste.value.filter(
+      (item) => item.nom && item.nom.toLowerCase().includes(lowerCaseQuery),
+    )
+  })
+}
+</script>
+
+<template>
+  <!-- component -->
+  <div>
+    <!-- <return route="" /> -->
+    <span class="flex flex-row items-center justify-center px-2 py-4">
+      <p class="text-black px-4">Rechercher</p>
+      <input
+        v-model="query"
+        @input="listFilter"
+        type="text"
+        placeholder="nom du client "
+        class="input input-bordered input-primary w-full max-w-xs bg-white"
+      />
+    </span>
+  </div>
+  <div class="flex flex-col w-screen">
+    <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
+      <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="overflow-hidden">
+          <table class="min-w-full">
+            <thead class="bg-white border-b">
+              <tr>
+                <th
+                  scope="col"
+                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                >
+                  nom
+                </th>
+                <th
+                  scope="col"
+                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                >
+                  prenoms
+                </th>
+                <th
+                  scope="col"
+                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                >
+                  adresse
+                </th>
+                <th
+                  scope="col"
+                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                >
+                  code postal
+                </th>
+                <th
+                  scope="col"
+                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                >
+                  telephone
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                class="bg-gray-100 border-b"
+                v-for="(item, i) in filteredList"
+                :key="i"
+              >
+                <td
+                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                >
+                  {{ item.nom }}
+                </td>
+                <td
+                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                >
+                  {{ item.prenom }}
+                </td>
+                <td
+                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                >
+                  {{ item.adresse }}
+                </td>
+                <td
+                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                >
+                  {{ item.codePostal }}
+                </td>
+                <td
+                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                >
+                  {{ item.telephone }}
+                </td>
+
+                <td
+                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                >
+                  <router-link :to="'/customersDetails/' + item.id">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </router-link>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.text-primary {
+  color: #021d49;
+}
+</style>
