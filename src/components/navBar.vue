@@ -1,7 +1,7 @@
 <script setup>
 // import SelectCustomersView from '../views/selectCustomersView.vue';
 
-const displaySearchBar = false
+
 </script>
 
 <template>
@@ -28,9 +28,9 @@ const displaySearchBar = false
           tabindex="0"
           class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
         >
-          <li><router-link to="/liste">Enregistrer un client</router-link></li>
-          <li><router-link to="/liste">Enregistrer un colis</router-link></li>
-          <li><router-link to="/liste">Mes clients</router-link></li>
+          <li><router-link to="/customersForm">Enregistrer un client</router-link></li>
+          <li><router-link to="/form">Enregistrer un colis</router-link></li>
+          <li><router-link to="/customers">Mes clients</router-link></li>
           <li><router-link to="/liste">Mes colis</router-link></li>
         </ul>
       </div>
@@ -44,7 +44,6 @@ const displaySearchBar = false
     <div class="navbar-end">
       <button class="btn btn-ghost btn-circle">
         <svg
-          :on-click="(displaySearchBar = !displaySearchBar)"
           xmlns="http://www.w3.org/2000/svg"
           class="h-5 w-5"
           fill="none"

@@ -142,7 +142,7 @@ async function send() {
   </div>
 
   <dialog id="send" class="modal">
-    <div class="modal-box bg-white text-black">
+    <div class="modal-box h-[60%] bg-white text-black">
       <form class="space-y-6" @submit.prevent="send">
         <div class="date mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div class="sm:col-span-3">

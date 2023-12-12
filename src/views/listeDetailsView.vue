@@ -179,11 +179,28 @@ const makePDF = (client) => {
   pdf.text(client.prix + ' €', 175, 247)
 
   pdf.setFontSize(15)
-  pdf.text('Observations : ' + client.statut, 22, 256)
+  pdf.text('Observations : ' + client.statut + '    Reste a payer : ' + client.resteAPayer, 22, 256)
   pdf.line(20, 250, 198, 250)
 
   pdf.save(client.expediteur)
 }
+
+
+//test 
+const downloadQRCode = () => {
+  const container = document.querySelector('.qrcode-container');
+  const canvas = container.querySelector('canvas');
+  const url = canvas.toDataURL('image/png');
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'qrcode.png';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+
 </script>
 
 <template>
@@ -288,16 +305,19 @@ const makePDF = (client) => {
       <!-- Mise en place du Qr Code  -->
       <dialog id="qrCode" class="modal">
         <div class="modal-box bg-white">
-          <h3 class="font-bold text-lg text-black">
+          <div class="qrcode-container">
+            <h3 class="font-bold text-lg text-black">
             QrCode de {{ client.expediteur }}
           </h3>
           <p class="py-4">
             <qrcode-vue :value="client.id" :size="300" level="H"></qrcode-vue>
           </p>
+          </div>
+        
           <div class="modal-action">
             <form method="dialog">
               <!-- if there is a button in form, it will close the modal -->
-              <button class="btn mx-4">Télécharger</button>
+              <button class="btn mx-4"  @click="downloadQRCode">Télécharger</button>
               <button class="btn">Fermer</button>
             </form>
           </div>

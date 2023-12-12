@@ -22,6 +22,7 @@
     "jspdf": "^2.5.1",
     "pinia": "^2.1.7",
     "qrcode.vue": "^3.4.1",
+    "vercel": "^32.6.1",
     "vue": "^3.3.4",
     "vue-barcode-reader": "^1.0.3",
     "vue-qrcode-component": "^2.1.1",

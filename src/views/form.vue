@@ -103,7 +103,7 @@ async function submitEnlevement(id) {
       <h2
         class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
       >
-        Enregistrer un client
+        Enregistrer des Colis
       </h2>
     </div>
     <div>
@@ -422,5 +422,6 @@ async function submitEnlevement(id) {
     </div>
   </div>
 </template>
+
 
 <style scoped></style>

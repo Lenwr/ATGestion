@@ -29,10 +29,6 @@ export default {
 </script>
 
 <template>
-  <div>
-    <navBarVue />
-  </div>
-
   <div class="bg-white">
     <NavBar />
 
@@ -151,9 +147,9 @@ export default {
           <li v-if="isLoggedIn" class="text-white">
             <router-link to="/planing">Planing</router-link>
           </li>
-          <li v-if="isLoggedIn" class="text-white">
+          <!-- <li v-if="isLoggedIn" class="text-white">
             <router-link to="/dailyTasks">todoListe</router-link>
-          </li>
+          </li> -->
           <li v-if="isLoggedIn" class="text-white" @click="logOut">
             <a>Se deconnecter</a>
           </li>

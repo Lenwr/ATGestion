@@ -12,6 +12,7 @@ let Client = ref('')
 const onLoaded = () => {
   console.log("loaded");
 };
+const chargement = []
 
 const onDecode = (text) => {
   decodedText.value = text;
@@ -21,7 +22,8 @@ const onDecode = (text) => {
   })
   Client = client.value ;
   console.log(Client.expediteur);
-  router.push({ path: '/liste/' + Client.id })
+  // router.push({ path: '/liste/' + Client.id })
+
 };
 
 

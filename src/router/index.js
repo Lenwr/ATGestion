@@ -13,7 +13,7 @@ import CustomersView from '../views/customersView.vue'
 import CustomersFormView from '../views/customersFormView.vue'
 import CustomersDetailsView from '../views/customersDetailsView.vue'
 import SelectCustomersView from '../views/selectCustomersView.vue'
-import DailyTasksAppView from '../views/dailyTasks/DailyTasksAppView.vue'
+// import DailyTasksAppView from '../views/dailyTasks/DailyTasksAppView.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -67,10 +67,10 @@ const router = createRouter({
       path: '/selectForm',
       component: SelectCustomersView,
     },
-    {
-      path: '/dailyTasks',
-      component: DailyTasksAppView,
-    },
+    // {
+    //   path: '/dailyTasks',
+    //   component: DailyTasksAppView,
+    // },
   ],
 })
 
