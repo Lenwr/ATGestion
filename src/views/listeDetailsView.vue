@@ -247,8 +247,6 @@ function display() {
 </script>
 
 <template>
-  <div><button class="btn btn-primary" @click="display">display</button></div>
-
   <div class="bg-white h-full">
     <div class="container flex flex-row py-10">
       <div
@@ -289,15 +287,6 @@ function display() {
         <h1 class="mt-4 text-xl font-medium text-gray-700">
           Description du colis :
         </h1>
-
-        <p class="py-4">
-          <qrcode-vue
-            id="qr_code"
-            :value="client.id"
-            :size="300"
-            level="H"
-          ></qrcode-vue>
-        </p>
 
         <p class="mt-1 text-gray-500 h-auto">{{ client.description }}</p>
         <h1 class="mt-4 text-xl font-medium text-gray-700">Nombre de Colis</h1>
