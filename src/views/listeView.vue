@@ -4,7 +4,6 @@ import { collection } from 'firebase/firestore'
 import { format } from 'date-fns'
 import frLocale from 'date-fns/locale/fr'
 import { computed, ref, watch } from 'vue'
-import Return from '../components/return.vue'
 
 const db = useFirestore()
 console.log(db)
@@ -35,22 +34,21 @@ const filteredList = computed(() => {
       .filter(
         (liste) =>
           liste.destination === selectedDestination.value &&
-          liste.statut === selectedStatuts.value
+          liste.statut === selectedStatuts.value,
       )
-      .sort((a, b) => new Date(b.date) - new Date(a.date));
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
   } else if (selectedDestination.value) {
     return Liste.value
       .filter((liste) => liste.destination === selectedDestination.value)
-      .sort((a, b) => new Date(b.date) - new Date(a.date));
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
   } else if (selectedStatuts.value) {
     return Liste.value
       .filter((liste) => liste.statut === selectedStatuts.value)
-      .sort((a, b) => new Date(b.date) - new Date(a.date));
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
   } else {
-    return Liste.value.sort((a, b) => new Date(b.date) - new Date(a.date));
+    return Liste.value.sort((a, b) => new Date(b.date) - new Date(a.date))
   }
-});
-
+})
 
 // barre de recherche
 const query = ref('')
@@ -65,6 +63,7 @@ async function listFilter() {
     )
   })
 }
+
 </script>
 
 <template>
