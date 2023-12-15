@@ -8,9 +8,6 @@ import FullCalendar from "@fullcalendar/vue3";
 import useEvents from "../components/useEvents.js";
 import {useCollection, useFirestore } from "vuefire";
 import {getFirestore, collection, addDoc} from 'firebase/firestore';
-import {get, timestamp} from "@vueuse/core";
-import {format} from "date-fns";
-import frLocale from "date-fns/locale/fr";
 
 const {getEvents , createEvent , setEvents , updateEvent , deleteEvent} =  useEvents()
 const id = ref(10)

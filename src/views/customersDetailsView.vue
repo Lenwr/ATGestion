@@ -1,10 +1,11 @@
 <script setup>
 import { useCollection, useFirestore } from 'vuefire'
 import { collection, addDoc } from 'firebase/firestore'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { format } from 'date-fns'
 import frLocale from 'date-fns/locale/fr'
+import router from '../router/index.js'
 import {
   getStorage,
   ref as storageRef,
@@ -19,28 +20,23 @@ const ListeColis = useCollection(collection(db, 'enlevements'))
 const enlevementsCollection = collection(db, 'enlevements')
 const detailId = ref(route.params.id)
 const myId = detailId.value
-console.log(myId)
+let liste = ref('')
 
-const liste = computed(() => {
+liste = computed(() => {
   return Liste.value.find((detail) => detail.id === detailId.value)
 })
-console.log(liste)
+
+
+  console.log(liste.value)
+
+
 const listeColis = computed(() => {
-  return ListeColis.value.filter(
-    (detail) => detail.customerId === myId,
-  )
+  return ListeColis.value.filter((detail) => detail.customerId === myId)
 })
 
 const formatDateTime = (dateTimeString) => {
   const date = new Date(dateTimeString)
-  const options = {
-    weekday: 'long', // Jour de la semaine (ex: "Mardi")
-    day: 'numeric', // Jour du mois (ex: "9")
-    month: 'long', // Mois (ex: "décembre")
-    year: 'numeric', // Année (ex: "2023")
-    hour: 'numeric', // Heure (ex: "20")
-    minute: 'numeric', // Minute (ex: "13")
-  }
+
   return format(date, "EEEE d MMMM yyyy à HH'h' mm", { locale: frLocale })
 }
 
@@ -103,7 +99,7 @@ async function send() {
     console.log(Data)
     const newDocumentRef = await addDoc(enlevementsCollection, Data)
     console.log('Document ajouté avec ID :', newDocumentRef.id)
-    await console.log('this work')
+    await router.push({ path: '/soumission' })
   } catch (error) {
     console.error("Erreur lors de l'envoi du formulaire :", error)
   }
@@ -182,7 +178,7 @@ async function send() {
           </div>
         </div>
 
-        <div class="telephoneExpediteur">
+        <!-- <div class="telephoneExpediteur">
           <label
             for="telephoneExpediteur"
             class="block text-sm font-medium leading-6 text-gray-900"
@@ -198,7 +194,7 @@ async function send() {
               class="block h-[3em] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-4"
             />
           </div>
-        </div>
+        </div> -->
 
         <div>
           <label
