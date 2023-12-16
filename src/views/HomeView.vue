@@ -66,10 +66,11 @@ export default {
     <div class="bg-[#F2F3F4] mobile:w-[90%]  w-[40%] py-6 my-2 rounded-xl">
       <div class="mx-2 flex flex-row items-center justify-around py-4">
         <router-link
-          class="text-black bg-white shadow-2xl text-center w-[60%] py-6 rounded-xl"
+          class="text-black bg-white shadow-2xl text-center w-[60%] py-2 rounded-xl"
           to="/form"
         >
-          <p>Enregistrer un enlevement</p>
+          <p>Enregistrer un</p>
+          <p> enlevement</p>
         </router-link>
         <img src="/images/formulaire.png" alt="" class="w-[25%]" />
       </div>

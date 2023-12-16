@@ -122,6 +122,7 @@ async function submitEnlevement(id) {
             </label>
             <div class="mt-2">
               <input
+                required
                 type="datetime-local"
                 name="date"
                 v-model="customer.date"
@@ -297,6 +298,7 @@ async function submitEnlevement(id) {
           </label>
           <div class="mt-2">
             <input
+              required
               type="file"
               id="image"
               @change="handleFileChange"
@@ -422,6 +424,5 @@ async function submitEnlevement(id) {
     </div>
   </div>
 </template>
-
 
 <style scoped></style>
