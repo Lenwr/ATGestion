@@ -26,8 +26,14 @@ liste = computed(() => {
   return Liste.value.find((detail) => detail.id === detailId.value)
 })
 
+liste = computed(() => {
+  return Liste.value.find((detail) => detail.id === detailId.value)
+})
 
-  console.log(liste.value)
+function display (){
+  console.log(liste.value.nom)
+}
+
 
 
 const listeColis = computed(() => {
@@ -43,7 +49,7 @@ const formatDateTime = (dateTimeString) => {
 const customer = ref({
   expediteur: '',
   statut: '',
-  telephoneExpediteur: liste.telephone,
+  telephoneExpediteur: '',
   destinataire: '',
   telephoneDestinataire: '',
   typeDeFret: '',
@@ -77,10 +83,10 @@ async function send() {
     const imageUrl = await getDownloadURL(imageRef)
     // Créez un document dans Firestore avec les données du formulaire
     const Data = {
-      expediteur: customer.value.expediteur,
+      expediteur: liste.value.nom,
       statut: customer.value.statut,
       imageUrl: imageUrl, // Stockez l'URL de l'image dans Firestore
-      telephoneExpediteur: customer.value.telephoneExpediteur,
+      telephoneExpediteur: liste.value.telephone,
       destinataire: customer.value.destinataire,
       telephoneDestinataire: customer.value.telephoneDestinataire,
       typeDeFret: customer.value.typeDeFret,
@@ -109,16 +115,30 @@ async function send() {
 <template>
   <div class="flex flex-col items-center">
     <span
-      class="bg-primary my-5 px-10 rounded-md shadow-2xl text-[2em] text-white"
+      class="bg-base-100 my-5 px-10 rounded-md shadow-2xl text-[2em] text-white"
     >
       Enlèvements
     </span>
     <p v-for="item in liste" :key="item"></p>
     <span
-      class="bg-primary my-5 px-10 rounded-md shadow-2xl text-[2em] text-white"
+      class="flex flex-row items-center bg-primary my-5 px-4 py-1 rounded-2xl shadow-2xl text-[1.5em] text-white"
       onclick="send.showModal()"
+      
     >
-      Nouvel Envoi
+      Nouvel Envoi <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-[1.8em] pl-4"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
     </span>
 
     <div class="flex flex-col w-full">
@@ -155,13 +175,14 @@ async function send() {
                 v-model="customer.date"
                 id="date"
                 autocomplete="given-name"
+                required
                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
         </div>
 
-        <div>
+        <!-- <div>
           <label
             for="expediteur"
             class="block text-sm font-medium leading-6 text-gray-900"
@@ -176,7 +197,7 @@ async function send() {
               class="block h-[3em] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-4"
             />
           </div>
-        </div>
+        </div> -->
 
         <!-- <div class="telephoneExpediteur">
           <label
@@ -437,6 +458,7 @@ async function send() {
           >
             Enregistrer
           </button>
+          <button @click="display" class="btn btn-error text-white">display</button>
         </div>
       </form>
       <div class="modal-action">
