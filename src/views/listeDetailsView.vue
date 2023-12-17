@@ -139,7 +139,7 @@ const makePDF = (client) => {
     //tableau coordonnées
     //(x,y,-x,-y)
     pdf.setLineWidth(0.5)
-    pdf.setLineDash([0])
+    pdf.setLineDash([])
     pdf.line(19, 51, 19, 83)
     pdf.line(51, 51, 51, 83)
     pdf.line(120, 51, 120, 83)
