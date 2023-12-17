@@ -127,6 +127,26 @@ const makePDF = (client) => {
     pdf.setTextColor(0, 0, 0)
     // pdf.text('PMS ', 150, 47)
 
+    //qrCode
+    pdf.addImage(imageBase64, 'JPEG', 20, 52, 30, 30)
+
+    //decoupage borderau
+    pdf.setLineWidth(0.5)
+    pdf.setLineDash([1])
+    pdf.line(8, 48, 205, 48)
+    pdf.line(8, 86, 205, 86)
+
+    //tableau coordonnées
+    //(x,y,-x,-y)
+    pdf.setLineWidth(0.5)
+    pdf.setLineDash([0])
+    pdf.line(19, 51, 19, 83)
+    pdf.line(51, 51, 51, 83)
+    pdf.line(120, 51, 120, 83)
+    pdf.line(19, 51, 198, 51)
+    pdf.line(19, 83, 198, 83)
+    pdf.line(198, 51, 198, 83)
+
     //informations expéditeur
     pdf.setDrawColor(0)
     pdf.setFillColor(50, 205, 50)
@@ -141,17 +161,6 @@ const makePDF = (client) => {
     pdf.text('Nombre de colis : ' + client.nombreDeColis, 54, 76)
     pdf.text('Type de Fret : ' + client.typeDeFret.toUpperCase(), 54, 81)
 
-    //qrCode
-    pdf.addImage(imageBase64, 'JPEG', 20, 52, 30, 30)
-    //tableau coordonnées
-    //(x,y,-x,-y)
-    pdf.setLineWidth(0.5)
-    pdf.line(19, 51, 19, 83)
-    pdf.line(51, 51, 51, 83)
-    pdf.line(120, 51, 120, 83)
-    pdf.line(19, 51, 198, 51)
-    pdf.line(19, 83, 198, 83)
-    pdf.line(198, 51, 198, 83)
     //information destinataire
     pdf.setDrawColor(0)
     pdf.setFillColor(50, 205, 50)
@@ -171,24 +180,24 @@ const makePDF = (client) => {
 
     pdf.setDrawColor(0)
     pdf.setFillColor(192, 192, 192)
-    pdf.rect(20, 85, 178, 8, 'FD')
-    pdf.text('Qté  ', 22, 90)
+    pdf.rect(20, 90, 178, 8, 'FD')
+    pdf.text('Qté  ', 22, 95)
     pdf.text('', 24, 98)
-    pdf.text('Description', 35, 90)
+    pdf.text('Description', 35, 95)
     let splitDescription = pdf.splitTextToSize(client.description, 110)
     pdf.setFontSize(12)
-    pdf.text(splitDescription, 35, 98)
+    pdf.text(splitDescription, 35, 103)
     pdf.text('', 35, 104)
-    pdf.text('P.U.  ', 154, 90)
+    pdf.text('P.U.  ', 154, 95)
     pdf.text('  ', 154, 98)
-    pdf.text('TOTAL  ', 180, 90)
-    pdf.text(client.prix + ' €', 180, 98)
+    pdf.text('TOTAL  ', 180, 95)
+    pdf.text(client.prix + ' €', 180, 103)
     pdf.setLineWidth(0.5)
-    pdf.line(20, 85, 20, 280)
-    pdf.line(30, 85, 30, 250)
-    pdf.line(150, 85, 150, 280)
-    pdf.line(170, 85, 170, 250)
-    pdf.line(198, 85, 198, 280)
+    pdf.line(20, 90, 20, 280)
+    pdf.line(30, 90, 30, 250)
+    pdf.line(150, 90, 150, 280)
+    pdf.line(170, 90, 170, 250)
+    pdf.line(198, 90, 198, 280)
     pdf.line(20, 280, 198, 280)
 
     pdf.setDrawColor(0)

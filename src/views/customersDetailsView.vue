@@ -79,13 +79,13 @@ async function send() {
       `enlevements_images/${Date.now()}_${customer.image}`,
     )
     await uploadBytes(imageRef, customer.image)
-    // Obtenez l'URL de téléchargement de l'image
+    //URL de téléchargement de l'image
     const imageUrl = await getDownloadURL(imageRef)
-    // Créez un document dans Firestore avec les données du formulaire
+  
     const Data = {
       expediteur: liste.value.nom,
       statut: customer.value.statut,
-      imageUrl: imageUrl, // Stockez l'URL de l'image dans Firestore
+      imageUrl: imageUrl,
       telephoneExpediteur: liste.value.telephone,
       destinataire: customer.value.destinataire,
       telephoneDestinataire: customer.value.telephoneDestinataire,
