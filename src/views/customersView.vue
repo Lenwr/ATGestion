@@ -4,6 +4,7 @@ import { collection, updateDoc, doc, getFirestore } from 'firebase/firestore'
 import { computed, ref } from 'vue'
 import Return from '../components/return.vue'
 
+
 const db = useFirestore()
 const database = getFirestore()
 
@@ -20,6 +21,7 @@ async function listFilter() {
     )
   })
 }
+
 </script>
 
 <template>

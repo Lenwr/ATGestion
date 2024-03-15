@@ -1,4 +1,5 @@
 <script>
+
 import { auth } from '../components/firebaseConfig.js'
 export default {
   data() {
@@ -12,6 +13,10 @@ export default {
     }
   },
 }
+
+
+
+
 </script>
 
 <template>
@@ -114,6 +119,8 @@ export default {
 
 
   </div>
+
+
 
 </template>
 

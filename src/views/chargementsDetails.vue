@@ -7,6 +7,8 @@ import { useRoute } from 'vue-router'
 import {computed, onMounted, ref, watch} from "vue";
 import router from "../router/index.js";
 import { StreamBarcodeReader } from 'vue-barcode-reader'
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 const route = useRoute()
 const db = useFirestore()
@@ -55,9 +57,12 @@ async function onDecode(text) {
     const data = {
       packagesTable: liste.value.packagesTable.concat(Package.value)
     };
-
     const updateChargementDoc = await updateDoc(docRef, data);
-    alert("Colis ajouté");
+    toast("Colis ajouté", {
+      "theme": "auto",
+      "type": "default",
+      "dangerouslyHTMLString": true
+    })
   } else {
     console.log(`Le package ${Package.value} est déjà présent dans packagesTable.`);
   }
