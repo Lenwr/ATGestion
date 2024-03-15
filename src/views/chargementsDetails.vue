@@ -68,8 +68,8 @@ async function onDecode(text) {
 <template>
 
   <div class="text-black  flex flex-row justify-around items-center m-8">
-    <h2>Enregistrer un nouveau chargement </h2>
-    <button class="btn btn-primary"  @click="show" > nouveau </button>
+    <h2>Enregistrement des colis </h2>
+
   </div>
 
   <dialog id="modal" class="modal">
@@ -112,7 +112,7 @@ async function onDecode(text) {
   </div>
 
 
-  <div class="flex flex-col w-screen">
+  <div class="flex my-[10%] flex-col w-screen">
     <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
       <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
         <div class="overflow-hidden">

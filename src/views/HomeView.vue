@@ -15,7 +15,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col items-center py-[10%]">
+  <div class="flex my-[10%] flex-col items-center py-[10%]">
     <p
       v-if="displayName"
       class="text-black bg-primary px-4 py-4 mb-[10%] rounded shadow-2xl font-bold"
@@ -36,7 +36,6 @@ export default {
       <p class="text-black text-center">Enlèvements</p>
     </div>
 
-    <div class="flex flex-col items-center desktop:flex-row tablette:flex-row tablette:justify-around desktop:justify-around">
 
     <!-- les clients -->
 
@@ -84,7 +83,7 @@ export default {
         <img src="/images/colis.png" alt="" class="w-[25%]" />
       </div>
     </div>
-  </div>
+
 
     <!-- boxes -->
 
@@ -100,7 +99,7 @@ export default {
       <p class="text-black text-center">Gestion des chargements</p>
     </div>
 
-    <div class="bg-[#F2F3F4] mobile:w-[90%]  w-[40%] py-6 my-2 rounded-xl">
+    <div class="bg-[#F2F3F4] mobile:w-[90%] mb-6  w-[40%] py-6 my-2 rounded-xl">
       <div class="mx-2 flex flex-row items-center justify-around py-4">
         <router-link
             class="text-black bg-white shadow-2xl text-center w-[60%] py-2 rounded-xl"
