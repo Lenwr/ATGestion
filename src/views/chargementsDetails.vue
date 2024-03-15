@@ -179,6 +179,8 @@ async function onDecode(text) {
     </div>
   </div>
 
+<div class="flex items-center justify-center " ><img src="/images/chargements.jpg" alt="" class="w-[80%] rounded-2xl shadow-2xl mb-[30%]  " /></div>
+
 </template>
 
 
