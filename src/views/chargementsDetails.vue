@@ -57,7 +57,7 @@ async function onDecode(text) {
     };
 
     const updateChargementDoc = await updateDoc(docRef, data);
-    console.log(Package.value);
+    alert("Colis ajouté");
   } else {
     console.log(`Le package ${Package.value} est déjà présent dans packagesTable.`);
   }
@@ -179,7 +179,8 @@ async function onDecode(text) {
     </div>
   </div>
 
-<div class="flex items-center justify-center " ><img src="/images/chargements.jpg" alt="" class="w-[80%] rounded-2xl shadow-2xl mb-[30%]  " /></div>
+<div class="flex items-center justify-center " ><img src="/images/chargements.jpg" alt="" class="w-[80%] rounded-2xl shadow-2xl mb-[30%]  " />
+</div>
 
 </template>
 
