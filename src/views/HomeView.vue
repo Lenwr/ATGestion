@@ -96,7 +96,7 @@ export default {
     <div
         class="bg-primary mobile:w-[80%] sm:w-[50%] py-6 my-2 rounded-2xl"
     >
-      <p class="text-black text-center">Gestion des chargements</p>
+      <p class="text-black text-center">Gestion des colis des contenaires</p>
     </div>
 
     <div class="bg-[#F2F3F4] mobile:w-[90%] mb-6  w-[40%] py-6 my-2 rounded-xl">
@@ -105,19 +105,10 @@ export default {
             class="text-black bg-white shadow-2xl text-center w-[60%] py-2 rounded-xl"
             to="/recording"
         >
-          <p>Débuter un</p>
-          <p> chargement </p>
+          <p>Enregistrer les</p>
+          <p> colis pour un contenaire </p>
         </router-link>
         <img src="/images/formulaire.png" alt="" class="w-[25%]" />
-      </div>
-      <div class="mx-2 flex flex-row items-center justify-around py-4">
-        <router-link
-            class="text-black bg-white shadow-2xl text-center w-[60%] py-6 rounded-xl"
-            to="/recording"
-        >
-          <p>Mes chargements </p>
-        </router-link>
-        <img src="/images/colis.png" alt="" class="w-[25%]" />
       </div>
     </div>
 
