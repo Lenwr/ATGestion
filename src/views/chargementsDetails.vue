@@ -58,9 +58,10 @@ async function onDecode(text) {
       packagesTable: liste.value.packagesTable.concat(Package.value)
     };
     const updateChargementDoc = await updateDoc(docRef, data);
-    toast("Colis ajouté", {
+    toast("Colis ajouté avec succès", {
       "theme": "auto",
-      "type": "default",
+      "type": "success",
+      "autoClose":1000,
       "dangerouslyHTMLString": true
     })
   } else {
