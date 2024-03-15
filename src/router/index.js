@@ -13,6 +13,10 @@ import CustomersView from '../views/customersView.vue'
 import CustomersFormView from '../views/customersFormView.vue'
 import CustomersDetailsView from '../views/customersDetailsView.vue'
 import SelectCustomersView from '../views/selectCustomersView.vue'
+import BoxCustomersForm from "../views/BoxCustomersForm.vue";
+import BoxPage from "../views/boxPage.vue";
+import LoadingPackagesRecording from "../views/loadingPackagesRecording.vue";
+import ChargementsDetails from "../views/chargementsDetails.vue";
 // import DailyTasksAppView from '../views/dailyTasks/DailyTasksAppView.vue'
 
 const router = createRouter({
@@ -66,6 +70,22 @@ const router = createRouter({
     {
       path: '/selectForm',
       component: SelectCustomersView,
+    },
+    {
+      path: '/FormulaireBox',
+      component: BoxCustomersForm,
+    },
+    {
+      path: '/boxes',
+      component: BoxPage,
+    },
+    {
+      path: '/recording',
+      component: LoadingPackagesRecording,
+    },
+    {
+      path: '/chargementsDetails/:id',
+      component:ChargementsDetails,
     },
     // {
     //   path: '/dailyTasks',

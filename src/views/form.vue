@@ -70,7 +70,8 @@ async function submitForm() {
     console.log(Data)
     const newDocumentRef = await addDoc(enlevementsCollection, Data)
     console.log('Document ajouté avec ID :', newDocumentRef.id)
-    await router.push({ path: '/soumission' })
+    //await router.push({path: '/soumission'})
+    await console.log('formulaire envoyé ')
   } catch (error) {
     console.error("Erreur lors de l'envoi du formulaire :", error)
   }

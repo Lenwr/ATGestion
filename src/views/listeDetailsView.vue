@@ -256,6 +256,8 @@ function display() {
 </script>
 
 <template>
+
+
   <div class="bg-white h-full">
     <div class="container flex flex-row py-10">
       <div
@@ -691,6 +693,8 @@ function display() {
       </div>
     </div>
   </dialog>
+
+
 </template>
 
 <style scoped>

@@ -26,14 +26,6 @@ liste = computed(() => {
   return Liste.value.find((detail) => detail.id === detailId.value)
 })
 
-liste = computed(() => {
-  return Liste.value.find((detail) => detail.id === detailId.value)
-})
-
-function display (){
-  console.log(liste.value.nom)
-}
-
 
 
 const listeColis = computed(() => {

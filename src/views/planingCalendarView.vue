@@ -16,10 +16,10 @@ const datas = useCollection(collection(db, 'events'))
 const showModal = ref(false);
 //send data planing to firebase
 
-    const title = ref('')
-    const start= ref('')
-    const end =ref('')
-    const allDay = ref('')
+    let title = ref('')
+    let start= ref('')
+    let end =ref('')
+    let allDay = ref('')
    
 
 
