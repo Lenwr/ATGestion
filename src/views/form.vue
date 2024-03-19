@@ -1,4 +1,6 @@
 <script setup>
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 import { getFirestore, collection, addDoc } from 'firebase/firestore'
 import {
   getStorage,
@@ -71,7 +73,30 @@ async function submitForm() {
     const newDocumentRef = await addDoc(enlevementsCollection, Data)
     console.log('Document ajouté avec ID :', newDocumentRef.id)
     //await router.push({path: '/soumission'})
+     customer.value.expediteur = '' ,
+     customer.value.statut = '' ,
+         imageUrl, // Stockez l'URL de l'image dans Firestore
+      customer.value.telephoneExpediteur = '' ,
+         customer.value.destinataire = '' ,
+         customer.value.telephoneDestinataire = '' ,
+         customer.value.typeDeFret = '' ,
+         customer.value.destination = '' ,
+         customer.value.nombreDeColis = '' ,
+         customer.value.description = '' ,
+         customer.value.personneEnCharge = '' ,
+         customer.value.prix = '' ,
+         customer.value.modeDePaiement = '' ,
+         customer.value.resteAPayer = '' ,
+         customer.value.date = '' ,
+         customer.value.image = null ,
+         customer.value.deliveryStatus ='En attente',
     await console.log('formulaire envoyé ')
+    toast("Formulaire envoyé", {
+      "theme": "auto",
+      "type": "success",
+      "autoClose":1000,
+      "dangerouslyHTMLString": true
+    })
   } catch (error) {
     console.error("Erreur lors de l'envoi du formulaire :", error)
   }
@@ -248,6 +273,8 @@ async function submitEnlevement(id) {
               <option>TOGO</option>
               <option>BENIN</option>
               <option>SENEGAL</option>
+              <option>ABIDJAN</option>
+              <option>CONGO</option>
             </select>
           </div>
         </div>
@@ -324,9 +351,12 @@ async function submitEnlevement(id) {
               autocomplete="personneEnCharge"
               class="block h-[3em] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
             >
+              <option>Abou</option>
+              <option>Said</option>
+              <option>Mathieu</option>
+              <option>Sakina</option>
               <option>Adèle</option>
               <option>Ibrahim</option>
-              <option>Mathieu</option>
               <option>Autres</option>
             </select>
           </div>
@@ -390,6 +420,7 @@ async function submitEnlevement(id) {
               <option>Chèque</option>
               <option>Espèces</option>
               <option>CB</option>
+              <option>Virement</option>
             </select>
           </div>
         </div>
