@@ -11,20 +11,16 @@ import "vue3-toastify/dist/index.css";
 
 const route = useRoute()
 const db = useFirestore()
-const liste = useCollection(collection(db, 'chargements'))
+const Liste = useCollection(collection(db, 'chargements'))
 const enlevements = useCollection(collection(db, 'enlevements'))
 const detailId = ref(route.params.id)
 let display = ref(false)
-
-
-
-
-const listeDetail = computed(() => {
-return liste.value.find((detail) => detail.id === detailId.value)
+const liste = computed(() => {
+return Liste.value.find((detail) => detail.id === detailId.value)
 })
 
 const clientsFiltres = computed(() => {
-  return enlevements.value.filter(client => listeDetail.value.packagesTable.includes(client.id));
+  return enlevements.value.filter(client => liste.value.packagesTable.includes(client.id));
 });
 console.log(clientsFiltres.value)
 const chargement = ref({
@@ -42,14 +38,11 @@ const docRef = doc(db, 'chargements', detailId.value)
 
 async function updateChargement() {
   const data = {
-    packagesTable: listeDetail.packagesTable.concat(chargement.value.packagesTable)
+    packagesTable: liste.packagesTable.concat(chargement.value.packagesTable)
   }
   const updateChargementDoc = await updateDoc(docRef, data)
 }
 
-function show() {
-  console.log(display)
-}
 
 async function onDecode(text) {
   decodedText.value = text;
@@ -79,10 +72,10 @@ async function onDecode(text) {
 
   <div class="text-black  flex flex-row justify-around items-center m-8">
     <h2>Enregistrement des colis </h2>
-    <button class="btn"  @click="display=!display" > {{display?'FIN':'DEBUT'}} </button>
+    <button class="btn" @click="display=!display" > {{!display?'Début':'Fermer'}} </button>
 
   </div>
-
+x
   <dialog id="modal" class="modal">
     <div class="modal-box bg-white">
 
@@ -94,7 +87,7 @@ async function onDecode(text) {
             <div>
               <label for="id" class="block text-sm font-medium leading-6 text-gray-900">Id</label>
               <div class="mt-2">
-                <input v-model="chargement.packagesTable" type="text" :placeholder="listeDetail?.packagesTable"
+                <input v-model="chargement.packagesTable" type="text" :placeholder="liste?.packagesTable"
                        autocomplete="date" required=""
                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
               </div>
@@ -120,7 +113,7 @@ async function onDecode(text) {
   </dialog>
 
 
-  <div class="full-screen" v-if="display"  >
+  <div class="full-screen" v-if="display">
     <StreamBarcodeReader
         @decode="onDecode"
         @loaded="onLoaded"
