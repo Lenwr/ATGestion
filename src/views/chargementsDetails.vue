@@ -1,33 +1,37 @@
-
 <script setup>
 
 import {useCollection, useFirestore} from "vuefire";
 import {addDoc, collection, doc, getFirestore, updateDoc} from "firebase/firestore";
-import { useRoute } from 'vue-router'
-import {computed, onMounted, ref, watch} from "vue";
+import {useRoute} from 'vue-router'
+import {computed, onMounted, reactive, ref, watch} from "vue";
 import router from "../router/index.js";
-import { StreamBarcodeReader } from 'vue-barcode-reader'
-import { toast } from "vue3-toastify";
+import {StreamBarcodeReader} from 'vue-barcode-reader'
+import {toast} from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
 const route = useRoute()
 const db = useFirestore()
-const Liste = useCollection(collection(db, 'chargements'))
+const liste = useCollection(collection(db, 'chargements'))
 const enlevements = useCollection(collection(db, 'enlevements'))
 const detailId = ref(route.params.id)
-let liste = ref(computed(() => {
-  return Liste.value.find((detail) => detail.id === detailId.value)
-}))
+let display = ref(false)
+
+
+
+
+const listeDetail = computed(() => {
+return liste.value.find((detail) => detail.id === detailId.value)
+})
+
 const clientsFiltres = computed(() => {
-  return enlevements.value.filter(client => liste.value.packagesTable.includes(client.id));
+  return enlevements.value.filter(client => listeDetail.value.packagesTable.includes(client.id));
 });
-console.log(liste.value.id)
+console.log(clientsFiltres.value)
 const chargement = ref({
   contenaire: '',
   date: '',
-  packagesTable : []
+  packagesTable: []
 })
-let display = false
 
 const onLoaded = () => {
   console.log('loaded')
@@ -38,12 +42,12 @@ const docRef = doc(db, 'chargements', detailId.value)
 
 async function updateChargement() {
   const data = {
-    packagesTable: liste.value.packagesTable.concat(chargement.value.packagesTable)
+    packagesTable: listeDetail.packagesTable.concat(chargement.value.packagesTable)
   }
   const updateChargementDoc = await updateDoc(docRef, data)
 }
-function show (){
-  display = !display
+
+function show() {
   console.log(display)
 }
 
@@ -61,7 +65,7 @@ async function onDecode(text) {
     toast("Colis ajouté avec succès", {
       "theme": "auto",
       "type": "success",
-      "autoClose":1000,
+      "autoClose": 1000,
       "dangerouslyHTMLString": true
     })
   } else {
@@ -75,6 +79,7 @@ async function onDecode(text) {
 
   <div class="text-black  flex flex-row justify-around items-center m-8">
     <h2>Enregistrement des colis </h2>
+    <button class="btn"  @click="display=!display" > {{display?'FIN':'DEBUT'}} </button>
 
   </div>
 
@@ -89,11 +94,16 @@ async function onDecode(text) {
             <div>
               <label for="id" class="block text-sm font-medium leading-6 text-gray-900">Id</label>
               <div class="mt-2">
-                <input id="date" v-model="chargement.packagesTable" type="text" :placeholder="liste.packagesTable" autocomplete="date" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                <input v-model="chargement.packagesTable" type="text" :placeholder="listeDetail?.packagesTable"
+                       autocomplete="date" required=""
+                       class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
               </div>
             </div>
             <div>
-              <button type="submit" class="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"> Enregistrer </button>
+              <button type="submit"
+                      class="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                Enregistrer
+              </button>
             </div>
           </form>
         </div>
@@ -110,7 +120,7 @@ async function onDecode(text) {
   </dialog>
 
 
-  <div class="full-screen">
+  <div class="full-screen" v-if="display"  >
     <StreamBarcodeReader
         @decode="onDecode"
         @loaded="onLoaded"
@@ -135,7 +145,7 @@ async function onDecode(text) {
                   scope="col"
                   class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
               >
-              nombre de Colis
+                nombre de Colis
               </th>
               <th
                   scope="col"
@@ -185,11 +195,11 @@ async function onDecode(text) {
     </div>
   </div>
 
-<div class="flex items-center justify-center " ><img src="/images/chargements.jpg" alt="" class="w-[80%] rounded-2xl shadow-2xl mb-[30%]  " />
-</div>
+  <div class="flex items-center justify-center "><img src="/images/chargements.jpg" alt=""
+                                                      class="w-[80%] rounded-2xl shadow-2xl mb-[30%]  "/>
+  </div>
 
 </template>
-
 
 
 <style scoped>

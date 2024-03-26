@@ -45,8 +45,11 @@ async function submitForm() {
   } catch (e) {
     console.error('Error adding document: ', e);
   }
+
 };
 
+
+console.log(Liste.value)
 
 
 </script>
