@@ -8,6 +8,7 @@ import router from "../router/index.js";
 import {StreamBarcodeReader} from 'vue-barcode-reader'
 import {toast} from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
+import Export from "../components/export.vue";
 
 const route = useRoute()
 const db = useFirestore()
@@ -186,6 +187,11 @@ x
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="flex justify-center py-5">
+
+    <Export class="text-black  " :dataSend=clientsFiltres />
   </div>
 
   <div class="flex items-center justify-center "><img src="/images/chargements.jpg" alt=""
