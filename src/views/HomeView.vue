@@ -126,7 +126,7 @@ const logOut = () => {
 
 <style scoped>
 .aaronTravel {
-  animation: combinedAnimation 900ms linear forwards; /* Animation combinée de 800ms avec une fonction de temporisation linéaire */
+  animation: combinedAnimation 800ms linear forwards; /* Animation combinée de 800ms avec une fonction de temporisation linéaire */
   transform-origin: center; /* Point de rotation au centre de l'élément */
 }
 
