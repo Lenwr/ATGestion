@@ -3,46 +3,123 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
 import interactionPlugin from '@fullcalendar/interaction'
-import {reactive, ref, watch} from "vue";
+import {computed, reactive, ref, watch} from "vue";
 import FullCalendar from "@fullcalendar/vue3";
-import useEvents from "../components/useEvents.js";
 import {useCollection, useFirestore } from "vuefire";
-import {getFirestore, collection, addDoc} from 'firebase/firestore';
+import {getFirestore, collection, addDoc, doc, deleteDoc} from 'firebase/firestore';
+import "vue3-toastify/dist/index.css";
+import Export from "../components/export.vue";
+import {toast} from "vue3-toastify";
 
-const {getEvents , createEvent , setEvents , updateEvent , deleteEvent} =  useEvents()
 const id = ref(10)
 const db = useFirestore()
 const datas = useCollection(collection(db, 'events'))
 const showModal = ref(false);
+let idItem = ref()
+const database = getFirestore()
 //send data planing to firebase
 
     let title = ref('')
     let start= ref('')
     let end =ref('')
     let allDay = ref('')
-   
 
+let newDatas = ref()
+newDatas = computed(() => {
+  return datas.value.map((doc) => {
+    //const formattedEnd = display(doc.end);
+    return {
+      id : doc.id,
+      title:doc.title ,
+      start: doc.start,
+    };
+  });
+});
+
+console.log(newDatas.value)
+
+let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
+let timeDisplay =  todayStr + 'T12:00:00'
+console.log(timeDisplay)
+
+
+async function sup (){
+  const DocRef = doc(database, 'events', idItem.value)
+  await  deleteDoc(DocRef)
+      .then(()=>{
+        toast("Chargement supprimé", {
+          "theme": "auto",
+          "type": "danger",
+          "autoClose": 1000,
+          "dangerouslyHTMLString": true
+        })
+      })
+}
+const handleClick = (item) => {
+  return new Promise((resolve, reject) => {
+    resolve(item)
+    idItem.value = item
+  })
+      .then(()=>{
+        const client = computed(() => {
+          return newDatas.value.find((detail) => detail.id === item)})
+
+        my_modal_1.showModal()
+      })
+
+}
+const handleDate = async (selectInfo) => {
+   title.value = prompt(`Nom de l'évenement `)
+  let calendarApi = selectInfo.view.calendar
+ if(title.value){
+   try {
+     const eventCollection = collection(db, 'events');
+     const data = {
+       title: title.value,
+       start: selectInfo.startStr,
+       allDay: true,
+     };
+     const newDocumentRef = await addDoc(eventCollection, data);
+     console.log('Document ajouté avec ID :', newDocumentRef.id);
+     title.value = ''
+     start.value = ''
+     toast("Chargement enrégistré", {
+       "theme": "auto",
+       "type": "success",
+       "autoClose": 1000,
+       "dangerouslyHTMLString": true
+     })
+
+   } catch (error) {
+     console.error('Erreur lors de l\'envoi du formulaire :', error);
+   }
+ }
+
+}
 
 const submitForm = async () => {
   try {
 
     const db = getFirestore();
     const eventCollection = collection(db, 'events');
-  
+
     const data = {
       title: title.value,
       start: start.value,
       allDay: true,
     };
-    
+
     const newDocumentRef = await addDoc(eventCollection, data);
     console.log('Document ajouté avec ID :', newDocumentRef.id);
-      title = ref('')
-      start= ref('')
-      end =ref('')
-      allDay = ref('')
-      alert("Déchargement enrégistré")
-    
+      title.value = ''
+      start.value = ''
+    toast("Chargement enrégistré", {
+      "theme": "auto",
+      "type": "success",
+      "autoClose": 1000,
+      "dangerouslyHTMLString": true
+    })
+
   } catch (error) {
     console.error('Erreur lors de l\'envoi du formulaire :', error);
   }
@@ -78,38 +155,19 @@ const options = reactive({
   selectable : true ,
   initialEvents:[],
   eventsSet:[],
-  select: (arg) => {
-   const cal = arg.view.calendar
-    cal.unselect()
-    cal.select({
-       title : prompt('Please enter a new title for your event'),
-    })
-    cal.addEvent({
-
-    })
-  },
+  select:handleDate,
   eventClick: (arg)=> {
-    console.log(arg)
+    const id = arg.event.id
+      handleClick(id)
+
   },
-  events: [],
+  events: newDatas,
   eventAdd: (arg) => {
 
   },
 });
 
-// watch(getEvents , () =>{
-//        options.events = datas.value.map((doc) => {
-//       const formattedStart = display(doc.start)
-//       //const formattedEnd = display(doc.end);
-//       return {
-//         id: doc.id,
-//         title: doc.title,
-//         start: formattedStart,
-//         end: formattedStart,
-//       }
-//     })
-//      //  console.log(options.events)
-// })
+/**
 watch(datas, (oldDatas , newDatas) => {
   if (newDatas) {
     options.events = datas.value.map((doc) => {
@@ -124,6 +182,7 @@ watch(datas, (oldDatas , newDatas) => {
     });
   }
 });
+ **/
 
 
 </script>
@@ -133,21 +192,23 @@ watch(datas, (oldDatas , newDatas) => {
 
 
 <template>
-<div class="pt-8 pb-[20%] bg px-1 flex flex-col">
-      <FullCalendar
-          class='text-black
+<div class="pt-8 pb-[20%] bg px-1  flex flex-col">
+     <div class="w-[90%] mx-[5%]  " >
+       <FullCalendar
+          class='text-black  h-[50%]
 mobile:text-[0.5em]'
           :options='options'
       >
       </FullCalendar>
-      <div class="flex justify-center ">
+     </div>
+   <!--   <div class="flex justify-center ">
         <div class="collapse w-[80%]  my-8  bg-primary mb-[30%]">
     <input type="checkbox" class="peer" />
     <div class="     collapse-title bg-primary text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content">
      Ajouter un chargement
     </div>
-    <div class=" pt-4 collapse-content bg-primary text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content"> 
-        <p>
+    <div class=" pt-4 collapse-content bg-primary text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content">
+
           <form class="space-y-6" @submit.prevent="submitForm">
 
 <div class="date mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -169,7 +230,7 @@ mobile:text-[0.5em]'
   </div>
 </div>
 <div>
-  <button type="submit" 
+  <button type="submit"
           class="flex h-[3em] w-full justify-center rounded-md bg-primary px-3 py-1.5 mb-[2em] text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
     Enregistrer
   </button>
@@ -177,12 +238,37 @@ mobile:text-[0.5em]'
 <div>
 </div>
 </form>
-        </p>
+
     </div>
 
   </div>
-      </div>
-  
+      </div> -->
+
 </div>
+
+
+  <!-- Open the modal using ID.showModal() method -->
+  <dialog id="my_modal_1" class="modal ">
+    <div class="modal-box justify-center ">
+      <h3 class="font-bold text-lg">Attention!</h3>
+      <p class="py-4">Voulez vous supprimer ce chargement ? </p>
+      <div >
+      </div>
+      <div class="modal-action flex justify-center ">
+        <form method="dialog" >
+          <!-- if there is a button in form, it will close the modal -->
+          <div class="flex justify-around">
+          <button class="btn hover:btn-error w-[50%] mx-4" @click="sup">oui </button>
+          <button class="btn hover:btn-success mx-4  w-[50%] ">Non</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+
+
+
 
 </template>

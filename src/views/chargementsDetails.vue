@@ -76,7 +76,7 @@ async function onDecode(text) {
     <button class="btn" @click="display=!display" > {{!display?'Début':'Fermer'}} </button>
 
   </div>
-x
+
   <dialog id="modal" class="modal">
     <div class="modal-box bg-white">
 

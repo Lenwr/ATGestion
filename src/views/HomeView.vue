@@ -1,22 +1,22 @@
-<script>
+<script setup>
+import {onMounted , ref} from "vue";
+import {getAuth , onAuthStateChanged , signOut} from "firebase/auth";
 
-import { auth } from '../components/firebaseConfig.js'
-export default {
-  data() {
-    return {
-      displayName: '',
+const isLoggedIn = ref(false)
+let auth;
+onMounted(()=>{
+  auth = getAuth();
+  onAuthStateChanged(auth , user => {
+    if(user){
+      isLoggedIn.value = true
+    } else {
+      isLoggedIn.value = false
     }
-  },
-  beforeUpdate() {
-    if (auth.currentUser) {
-      this.displayName = 'Bienvenue ' + auth.currentUser.displayName
-    }
-  },
+  })
+})
+const logOut = () => {
+
 }
-
-
-
-
 </script>
 
 <template>
