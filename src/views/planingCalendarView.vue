@@ -71,52 +71,25 @@ const handleClick = (item) => {
 
 }
 let passTitleInput
-const handleDate = (selectInfo) => {
-  new Promise((resolve, reject)=>{
-    my_modal_3.showModal()
-    passTitleInput = selectInfo
+
+const addLoading= async ( ) => {
+  const eventCollection = collection(db, 'events');
+  const data = {
+    title: title.value,
+    start: start.value.split("T")[0],
+    allDay: true,
+  };
+  const newDocumentRef = await addDoc(eventCollection, data);
+  console.log('Document ajouté avec ID :', newDocumentRef.id);
+  title.value = ''
+  start.value = ''
+  toast("Chargement enrégistré", {
+    "theme": "auto",
+    "type": "success",
+    "autoClose": 1000,
+    "dangerouslyHTMLString": true
   })
 }
-const passTitle = async ()=>{
-  {
-    const eventCollection = collection(db, 'events');
-    const data = {
-      title: title.value,
-      start: passTitleInput.startStr,
-      allDay: true,
-    };
-    const newDocumentRef = await addDoc(eventCollection, data);
-    console.log('Document ajouté avec ID :', newDocumentRef.id);
-    title.value = ''
-    start.value = ''
-    toast("Chargement enrégistré", {
-      "theme": "auto",
-      "type": "success",
-      "autoClose": 1000,
-      "dangerouslyHTMLString": true
-    })
-  }
-}
-
-
-// Fonction pour formater la date
-const formatTimestamp = (firebaseTimestamp) => {
-  const timestampInSeconds = firebaseTimestamp.seconds * 1000; // Convertir en millisecondes
-  const date = new Date(timestampInSeconds);
-
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = date.getDate().toString().padStart(2, '0');
-
-  return `${year}-${month}-${day}`;
-};
-
-const display = (item) => {
-  let todayStr = item.replace(/T.*$/, '') // YYYY-MM-DD of today
-  //console.log(todayStr)
-  return todayStr
-}
-
 const options = reactive({
   plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
   initialView: 'dayGridMonth',
@@ -129,16 +102,11 @@ const options = reactive({
   selectable: true,
   initialEvents: [],
   eventsSet: [],
-  select: handleDate,
   eventClick: (arg) => {
     const id = arg.event.id
     handleClick(id)
-
   },
   events: newDatas,
-  eventAdd: (arg) => {
-
-  },
 });
 
 /**
@@ -163,7 +131,10 @@ const options = reactive({
 
 
 <template>
-  <div class="pt-8 pb-[20%] bg px-1  flex flex-col">
+  <div  class="flex justify-center">
+    <button class="btn btn-accent my-4" onclick="my_modal_3.showModal()">Ajouter un chargement</button>
+  </div>
+  <div class="pt-8 pb-[5%] bg px-1  flex flex-col">
     <div class="w-[90%] mx-[5%]  ">
       <FullCalendar
           class='text-black  h-[50%]
@@ -241,15 +212,21 @@ mobile:text-[0.5em]'
   <dialog id="my_modal_3" class="modal">
     <div class="modal-box">
       <form method="dialog">
-        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
       </form>
       <h3 class="font-bold text-lg"></h3>
-      <p class="py-4">Nom de l'évenement </p>
+      <p class="py-1">Nom de l'évenement </p>
       <form  method="dialog">
-      <input type="text" v-model="title" placeholder="" class="input input-bordered w-[60%] max-w-xs" />
-        <button class="btn mx-3" @click="passTitle" > Enregistrer </button>
+        <label for="start" class="block text-sm font-medium leading-6 text-gray-900">Date</label>
+        <div class="mt-2">
+          <input type="date" name="start" v-model="start" id="date" autocomplete="given-name"
+                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+        </div>
+      <input type="text" v-model="title" placeholder="" class="input input-bordered w-[50%] max-w-xs my-4 bg-white text-black" />
+        <button class="btn btn-accent mx-3 w-[40%]" @click="addLoading" > Enregistrer </button>
       </form>
     </div>
   </dialog>
+
 
 </template>
