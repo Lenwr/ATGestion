@@ -29,7 +29,7 @@ const logOut = () => {
     </p>
 
     <img
-      class="mobile:rounded-xl mobile:w-[75%] my-4 mobile:shadow-2xl sm:hidden"
+      class="mobile:rounded-xl mobile:w-[75%] my-4 mobile:shadow-2xl sm:hidden aaronTravel"
       src="/images/logo.png"
       alt=""
       srcset=""
@@ -124,4 +124,20 @@ const logOut = () => {
 
 </template>
 
-<style scoped></style>
+<style scoped>
+.aaronTravel {
+  animation: combinedAnimation 1500ms linear forwards; /* Animation combinée de 800ms avec une fonction de temporisation linéaire */
+  transform-origin: center; /* Point de rotation au centre de l'élément */
+}
+
+@keyframes combinedAnimation {
+  0% {
+    transform: rotateY(0deg); /* Rotation initiale de 0 degrés */
+    opacity: 0; /* Opacité initiale de 0 */
+  }
+  100% {
+    transform: rotateY(1440deg); /* Rotation complète de 720 degrés (2 tours complets) */
+    opacity: 1; /* Opacité finale de 1 (entièrement visible) */
+  }
+}
+</style>
