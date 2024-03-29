@@ -110,6 +110,7 @@ const options = reactive({
     handleClick(id)
   },
   events: newDatas,
+  currentEvents:newDatas
 });
 
 /**
@@ -134,19 +135,33 @@ const options = reactive({
 
 
 <template>
-  <div  class="flex justify-center">
-    <button class="btn btn-accent my-4" onclick="my_modal_3.showModal()">Ajouter un chargement</button>
-  </div>
-  <div class="pt-8 pb-[5%] bg px-1  flex flex-col">
-    <div class="w-[90%] mx-[5%] h-screen  ">
+
+  <div class="pt-8 pb-[5%] bg px-1  flex flex-col ">
+    <div  class=" mobile:mx-[20%] mobile:my-[5%]">
+      <button class="btn btn-accent " onclick="my_modal_3.showModal()">Ajouter un chargement</button>
+    </div>
+    <div class="  h-screen flex flex-row ">
+      <div class=' mobile:hidden demo-app-sidebar w-[20%] flex flex-col items-center mt-[5%] '>
+        <div class='demo-app-sidebar-section  text-black'>
+          <h2>Tous les chargements ({{ options.currentEvents.length }})</h2>
+
+          <ul>
+            <li v-for='event in options.currentEvents' :key='event.id'>
+              <b>{{ event.startStr }}</b>
+              <i>{{ event.title }}</i>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
       <FullCalendar
           class='text-black
-mobile:text-[0.5em] h-[]'
+mobile:text-[0.5em] mobile:w-[100%]  w-[80%]'
           :options='options'
       >
       </FullCalendar>
     </div>
-
     <!-- Open the modal using ID.showModal() method -->
     <dialog id="my_modal_1" class="modal ">
       <div class="modal-box justify-center ">
@@ -166,11 +181,8 @@ mobile:text-[0.5em] h-[]'
         </div>
       </div>
     </dialog>
-
   </div>
   <!-- You can open the modal using ID.showModal() method -->
-
-
   <dialog id="my_modal_3" class="modal">
     <div class="modal-box">
       <form method="dialog">

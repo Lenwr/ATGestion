@@ -10,9 +10,8 @@ export default {
       screens: {
         'mobile': {'max': '639px'},     // Écran extra-petit (max-width: 639px)
         'tablette': {'min': '640px', 'max': '767px'},  // Écran petit (min-width: 640px, max-width: 767px)
-        'desktop': {'min': '768px', 'max': '1023px'}, // Écran moyen (min-width: 768px, max-width: 1023px)
-        'ecranLarge': {'min': '1024px', 'max': '1279px'},// Écran large (min-width: 1024px, max-width: 1279px)
-        'ecranTresLarge': {'min': '1280px'},               // Écran extra-large (min-width: 1280px)
+        'desktop': {'min': '767px', 'max': '1279px'}, // Écran moyen (min-width: 768px, max-width: 1023px)
+             // Écran extra-large (min-width: 1280px)
       },
     },
   },
