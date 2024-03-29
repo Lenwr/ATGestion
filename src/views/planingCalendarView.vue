@@ -92,6 +92,7 @@ const addLoading= async ( ) => {
 }
 
 const options = reactive({
+  handleWindowResize : true ,
   height:(600),
   plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
   initialView: 'dayGridMonth',
