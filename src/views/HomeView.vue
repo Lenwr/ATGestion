@@ -126,7 +126,7 @@ const logOut = () => {
 
 <style scoped>
 .aaronTravel {
-  animation: combinedAnimation 1500ms linear forwards; /* Animation combinée de 800ms avec une fonction de temporisation linéaire */
+  animation: combinedAnimation 900ms linear forwards; /* Animation combinée de 800ms avec une fonction de temporisation linéaire */
   transform-origin: center; /* Point de rotation au centre de l'élément */
 }
 
@@ -136,7 +136,7 @@ const logOut = () => {
     opacity: 0; /* Opacité initiale de 0 */
   }
   100% {
-    transform: rotateY(1440deg); /* Rotation complète de 720 degrés (2 tours complets) */
+    transform: rotateY(720deg); /* Rotation complète de 720 degrés (2 tours complets) */
     opacity: 1; /* Opacité finale de 1 (entièrement visible) */
   }
 }
