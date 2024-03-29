@@ -90,7 +90,9 @@ const addLoading= async ( ) => {
     "dangerouslyHTMLString": true
   })
 }
+
 const options = reactive({
+  height:(600),
   plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
   initialView: 'dayGridMonth',
   headerToolbar: {
@@ -135,56 +137,15 @@ const options = reactive({
     <button class="btn btn-accent my-4" onclick="my_modal_3.showModal()">Ajouter un chargement</button>
   </div>
   <div class="pt-8 pb-[5%] bg px-1  flex flex-col">
-    <div class="w-[90%] mx-[5%]  ">
+    <div class="w-[90%] mx-[5%] h-screen  ">
       <FullCalendar
-          class='text-black  h-[50%]
-mobile:text-[0.5em]'
+          class='text-black
+mobile:text-[0.5em] h-[]'
           :options='options'
       >
       </FullCalendar>
     </div>
-    <!--   <div class="flex justify-center ">
-         <div class="collapse w-[80%]  my-8  bg-primary mb-[30%]">
-     <input type="checkbox" class="peer" />
-     <div class="     collapse-title bg-primary text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content">
-      Ajouter un chargement
-     </div>
-     <div class=" pt-4 collapse-content bg-primary text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content">
 
-           <form class="space-y-6" @submit.prevent="submitForm">
-
- <div class="date mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-   <div class="sm:col-span-3">
-     <label for="start" class="block text-sm font-medium leading-6 text-gray-900">Date</label>
-     <div class="mt-2">
-       <input type="datetime-local" name="start" v-model="start" id="date" autocomplete="given-name"
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-     </div>
-   </div>
- </div>
-
- <div class="title" >
-   <label for="title" class="block text-sm font-medium leading-6 text-gray-900">Nom</label>
-   <div class="mt-2">
-     <input type="text" id="title" name="title" v-model="title"
-            class="block h-[3em] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-4"
-            placeholder="nom"/>
-   </div>
- </div>
- <div>
-   <button type="submit"
-           class="flex h-[3em] w-full justify-center rounded-md bg-primary px-3 py-1.5 mb-[2em] text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-     Enregistrer
-   </button>
- </div>
- <div>
- </div>
- </form>
-
-     </div>
-
-   </div>
-       </div> -->
     <!-- Open the modal using ID.showModal() method -->
     <dialog id="my_modal_1" class="modal ">
       <div class="modal-box justify-center ">
