@@ -124,20 +124,4 @@ const logOut = () => {
 
 </template>
 
-<style scoped>
-.aaronTravel {
-  animation: combinedAnimation 800ms linear forwards; /* Animation combinée de 800ms avec une fonction de temporisation linéaire */
-  transform-origin: center; /* Point de rotation au centre de l'élément */
-}
-
-@keyframes combinedAnimation {
-  0% {
-    transform: rotateY(0deg); /* Rotation initiale de 0 degrés */
-    opacity: 0; /* Opacité initiale de 0 */
-  }
-  100% {
-    transform: rotateY(720deg); /* Rotation complète de 720 degrés (2 tours complets) */
-    opacity: 1; /* Opacité finale de 1 (entièrement visible) */
-  }
-}
-</style>
+<style scoped></style>
