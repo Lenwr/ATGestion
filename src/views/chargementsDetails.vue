@@ -73,7 +73,7 @@ async function onDecode(text) {
 
   <div class="text-black  flex flex-row justify-around items-center m-8">
     <h2>Enregistrement des colis </h2>
-
+    <button class="btn" @click="display=!display" > {{!display?'Début':'Fermer'}} </button>
 
   </div>
 
@@ -114,7 +114,7 @@ async function onDecode(text) {
   </dialog>
 
 
-  <div class="full-screen" >
+  <div class="flex justify-center bg-black" v-if="display">
     <StreamBarcodeReader
         @decode="onDecode"
         @loaded="onLoaded"
