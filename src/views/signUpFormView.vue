@@ -16,7 +16,7 @@ const login = () => {
       .then((data)=>{
         console.log('enregistrement succès')
         console.log(auth.currentUser)
-        router.push('/customers')
+        router.push('/')
       })
       .catch((error)=>{
         console.log(error.code)

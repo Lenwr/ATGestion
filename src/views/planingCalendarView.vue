@@ -189,14 +189,15 @@ mobile:text-[0.5em] mobile:w-[100%]  w-[80%]'
         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
       </form>
       <h3 class="font-bold text-lg"></h3>
-      <p class="py-1">Nom de l'évenement </p>
+      <p class="py-2 text-white">Evenement </p>
       <form  method="dialog">
-        <label for="start" class="block text-sm font-medium leading-6 text-gray-900">Date</label>
+        <label for="start" class="block text-sm font-medium leading-6 text-white">Date</label>
         <div class="mt-2">
-          <input type="date" name="start" v-model="start" id="date" autocomplete="given-name"
-                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input  type="date" name="start" v-model="start" id="date" autocomplete="given-name"
+                 class=" mb-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
-      <input type="text" v-model="title" placeholder="" class="input input-bordered w-[50%] max-w-xs my-4 bg-white text-black" />
+        <label for="start" class="block text-sm font-medium leading-6 text-white">Nom de l'évenement</label>
+      <input type="text" v-model="title" placeholder="" class="input input-bordered w-[50%] max-w-xs mt-2 bg-white text-black" />
         <button class="btn btn-accent mx-3 w-[40%]" @click="addLoading" > Enregistrer </button>
       </form>
     </div>

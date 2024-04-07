@@ -21,9 +21,14 @@ onMounted(() => {
     }
   })
 })
+console.log(auth)
 const logOut = () => {
-  signOut(auth).then(() => {
-    router.push('/')
+  new Promise((resolve, reject)=>{
+    resolve( signOut(auth))
+    console.log('this work')
+  })
+ .then(() => {
+    router.push('/register')
   })
 }
 
