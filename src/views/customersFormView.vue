@@ -1,19 +1,20 @@
 <script setup>
 import { collection, addDoc } from 'firebase/firestore'
-import { ref } from 'vue'
-import { useFirestore } from 'vuefire'
+import {computed, ref} from 'vue'
+import {useCollection, useFirestore} from 'vuefire'
 import router from '../router/index.js'
 import Return from "../components/return.vue";
 
 const db = useFirestore()
-
+const Liste = useCollection(collection(db, 'customers'))
+const Temp= ref([])
 const customer = ref({
   nom: '',
   prenom: '',
   adresse: '',
   codePostal: '',
   telephone: '',
-  envois: [{ expediteur: 'thomas', colis: '2 cartons' }],
+  envois: [{ expediteur: '', colis: '' }],
 })
 
 // Add a new document with a generated id.
@@ -21,7 +22,14 @@ async function addCustomer() {
   const newDoc = await addDoc(collection(db, 'customers'), {
     ...customer.value,
   })
-  await router.push({ path: '/soumission' })
+      .then(()=>{
+       const temp = computed(() => {
+          return Liste.value.find((detail) => detail.name === customer.value.nom)
+        })
+
+      })
+
+  //await router.push({ path: '/customersDetails/:'+ temp.id })
 }
 
 

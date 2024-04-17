@@ -133,7 +133,7 @@ async function submitEnlevement(id) {
       </h2>
     </div>
     <div>
-      <SelectCustomersView />
+     <!--<SelectCustomersView />-->
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
