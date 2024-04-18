@@ -223,6 +223,64 @@ const makePDF = (client) => {
   }
 }
 
+
+//CodeQR
+const downloadQR = (client) => {
+  const canvasElement = document.getElementById('qr_code')
+  // Vérifier si l'élément canvas a été trouvé
+  if (canvasElement) {
+    // Convertir le contenu du canvas en base64
+    const imageBase64 = canvasElement.toDataURL('image/png')
+
+    // imageBase64 contient maintenant la représentation base64 de l'image générée
+
+    // Vous pouvez également utiliser cette base64 pour afficher l'image dans une balise <img> ou la sauvegarder, etc.
+
+    let pdf = new jsPDF('p', 'mm', 'a6')
+    //informations entreprise
+
+    pdf.setFontSize(12)
+    pdf.text('DESTINATAIRE : ' + client.expediteur.toUpperCase(), 5, 10)
+    pdf.text('TELEPHONE : '+ client.telephoneDestinataire, 5, 20)
+    pdf.text('DESTINATION : ' + client.destination, 5, 30)
+    pdf.text('NOMBRE DE COLIS : ' + client.nombreDeColis , 5, 40)
+
+    //qrCode
+    pdf.addImage(imageBase64, 'JPEG', 20, 75, 60, 60)
+
+    //decoupage borderau
+    pdf.setLineWidth(0.5)
+
+    pdf.line(4, 4, 100, 4)
+    pdf.line(4, 70, 100, 70)
+    pdf.line(4, 140, 100, 140)
+    pdf.line(4, 4, 4, 140)
+    pdf.line(100, 4, 100, 140)
+
+
+
+
+
+    //information destinataire
+    pdf.setDrawColor(0)
+    pdf.setFillColor(50, 205, 50)
+    pdf.rect(135, 52, 60, 7, 'F')
+    pdf.setFontSize(15)
+    pdf.setTextColor(255, 255, 255)
+    pdf.text('DESTINATAIRE ', 140, 58)
+    pdf.setFontSize(12)
+    pdf.setTextColor(0, 0, 0)
+    pdf.text(client.destinataire.toUpperCase(), 135, 65)
+    pdf.text('Téléphone : ' + client.telephoneDestinataire, 135, 71)
+    pdf.text('', 135, 75)
+    pdf.text('', 135, 80)
+
+    pdf.save(client.expediteur)
+  } else {
+    console.error('Canvas element not found')
+  }
+}
+
 //test
 const downloadQRCode = () => {
   const container = document.querySelector('.qrcode-container')
@@ -331,7 +389,7 @@ function display() {
         </button>
         <button
           class="btn btn-outline text-black mt-2 shadow-2xl w-full mb-2"
-          onclick="qrCode.showModal()"
+          @click="downloadQR(client)"
         >
           Générer code Qr
         </button>
