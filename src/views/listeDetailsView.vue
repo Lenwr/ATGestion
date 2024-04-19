@@ -240,7 +240,7 @@ const downloadQR = (client) => {
     //informations entreprise
 
     pdf.setFontSize(12)
-    pdf.text('DESTINATAIRE : ' + client.expediteur.toUpperCase(), 5, 10)
+    pdf.text('DESTINATAIRE : ' + client.destinataire.toUpperCase(), 5, 10)
     pdf.text('TELEPHONE : '+ client.telephoneDestinataire, 5, 20)
     pdf.text('DESTINATION : ' + client.destination, 5, 30)
     pdf.text('NOMBRE DE COLIS : ' + client.nombreDeColis , 5, 40)
