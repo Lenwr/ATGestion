@@ -125,6 +125,8 @@ async function listFilter() {
           :to="'/liste/' + liste.id"
         >
           <li class="flex mobile:flex-col justify-between gap-x-6 py-5">
+
+
             <div class="flex min-w-0 gap-x-4">
               <img
                 class="mt-2 h-20 w-20 flex-none rounded bg-gray-50"

@@ -22,6 +22,7 @@ const db = useFirestore()
 const datas = useCollection(collection(db, 'enlevements'))
 const database = getFirestore()
 const detailId = ref(route.params.id)
+const hide = ref(false)
 
 const client = computed(() => {
   return datas.value.find((detail) => detail.id === detailId.value)
@@ -98,6 +99,15 @@ async function deleteCustomer(id) {
 
 const makePDF = (client) => {
   const canvasElement = document.getElementById('qr_code')
+  let texteDescription = ref('')
+  if (client.description){
+     texteDescription.value = client.description
+  }else {
+    const allColis = client.colis
+    const nomsColis = allColis.map(colis => colis.nom).join(', ');
+    texteDescription.value = nomsColis
+  }
+  console.log(texteDescription.value)
   // Vérifier si l'élément canvas a été trouvé
   if (canvasElement) {
     // Convertir le contenu du canvas en base64
@@ -184,9 +194,9 @@ const makePDF = (client) => {
     pdf.text('Qté  ', 22, 95)
     pdf.text('', 24, 98)
     pdf.text('Description', 35, 95)
-    let splitDescription = pdf.splitTextToSize(client.description, 110)
+   let splitDescription = pdf.splitTextToSize(texteDescription.value, 110)
     pdf.setFontSize(12)
-    pdf.text(splitDescription, 35, 103)
+   pdf.text(splitDescription, 35, 103)
     pdf.text('', 35, 104)
     pdf.text('P.U.  ', 154, 95)
     pdf.text('  ', 154, 98)
@@ -257,23 +267,8 @@ const downloadQR = (client) => {
     pdf.line(4, 4, 4, 140)
     pdf.line(100, 4, 100, 140)
 
-
-
-
-
     //information destinataire
-    pdf.setDrawColor(0)
-    pdf.setFillColor(50, 205, 50)
-    pdf.rect(135, 52, 60, 7, 'F')
-    pdf.setFontSize(15)
-    pdf.setTextColor(255, 255, 255)
-    pdf.text('DESTINATAIRE ', 140, 58)
-    pdf.setFontSize(12)
-    pdf.setTextColor(0, 0, 0)
-    pdf.text(client.destinataire.toUpperCase(), 135, 65)
-    pdf.text('Téléphone : ' + client.telephoneDestinataire, 135, 71)
-    pdf.text('', 135, 75)
-    pdf.text('', 135, 80)
+
 
     pdf.save(client.expediteur)
   } else {
@@ -281,36 +276,51 @@ const downloadQR = (client) => {
   }
 }
 
-//test
-const downloadQRCode = () => {
-  const container = document.querySelector('.qrcode-container')
-  const canvas = container.querySelector('canvas')
-  const url = canvas.toDataURL('image/png')
+const qrCodeColis = (item , index) => {
+  const canvasElement = document.getElementById(item)
 
-  const link = document.createElement('a')
-  link.href = url
-  link.download = 'qrcode.png'
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
-}
-
-//test
-function display() {
-  const canvasElement = document.getElementById('qr_code')
   // Vérifier si l'élément canvas a été trouvé
   if (canvasElement) {
     // Convertir le contenu du canvas en base64
     const imageBase64 = canvasElement.toDataURL('image/png')
 
     // imageBase64 contient maintenant la représentation base64 de l'image générée
-    console.log(imageBase64)
 
     // Vous pouvez également utiliser cette base64 pour afficher l'image dans une balise <img> ou la sauvegarder, etc.
+
+    let pdf = new jsPDF('p', 'mm', 'a6')
+    //informations entreprise
+
+    pdf.setFontSize(13)
+    pdf.text('DESTINATAIRE : ' + client.value.destinataire.toUpperCase(), 5, 10)
+    pdf.text('TELEPHONE : '+ client.value.telephoneDestinataire, 5, 20)
+    pdf.text('DESTINATION : ' + client.value.destination, 5, 30)
+    pdf.text('COLI :' + (index+1) +'/'+client.value.nombreDeColis+ '  ' + item.toUpperCase() , 5, 40)
+
+    //qrCode
+    pdf.addImage(imageBase64, 'JPEG', 20, 75, 60, 60)
+
+    //decoupage borderau
+    pdf.setLineWidth(0.5)
+
+    pdf.line(4, 4, 100, 4)
+    pdf.line(4, 70, 100, 70)
+    pdf.line(4, 140, 100, 140)
+    pdf.line(4, 4, 4, 140)
+    pdf.line(100, 4, 100, 140)
+
+    //information destinataire
+
+    pdf.save(client.expediteur)
   } else {
     console.error('Canvas element not found')
+    console.log(item)
   }
 }
+//test
+
+
+//test
 </script>
 
 <template>
@@ -356,8 +366,26 @@ function display() {
         <h1 class="mt-4 text-xl font-medium text-gray-700">
           Description du colis :
         </h1>
+        <p class="mt-1 text-sm font-medium text-gray-900">
+          {{client.description}}
 
-        <p class="mt-1 text-gray-500 h-auto">{{ client.description }}</p>
+        </p>
+        <div v-if="client.colis">
+<div v-for="(item, index) in client.colis" class="flex flex-row p-2 justify-around items-center"  >
+  <h1 class="mt-2 text-black p-2 h-auto">{{ index + 1}}/{{client.nombreDeColis}}</h1>
+  <h1 class="mt-2 text-black p-2 h-auto">{{ item.nom }}</h1>
+  <qrcode-vue class="hidden"
+      :id="item.nom"
+      :value="`${client.expediteur},${item.nom},${client.date}`"
+      :size="300"
+      level="H"
+  ></qrcode-vue>
+  <button class="btn btn-accent" @click="qrCodeColis(item.nom , index)"> QrCode </button>
+</div>
+        </div>
+
+
+
         <h1 class="mt-4 text-xl font-medium text-gray-700">Nombre de Colis</h1>
         <p class="mt-1 text-gray-500 h-14">{{ client.nombreDeColis }}</p>
 
@@ -381,6 +409,13 @@ function display() {
             Retour
           </button>
         </router-link>
+        <qrcode-vue
+            class="hidden"
+            id="qr_code"
+            :value="client.id"
+            :size="300"
+            level="H"
+        ></qrcode-vue>
         <button
           class="btn btn-outline text-black mt-4 shadow-2xl w-full mb-10"
           @click="makePDF(client)"
@@ -413,7 +448,7 @@ function display() {
         </span>
       </div>
 
-      <!-- Mise en place du Qr Code  -->
+      <!-- Mise en place du Qr Code 2  -->
       <dialog id="qrCode" class="modal">
         <div class="modal-box bg-white">
           <div class="qrcode-container">
@@ -421,14 +456,11 @@ function display() {
               QrCode de {{ client.expediteur }}
             </h3>
             <p class="py-4">
-              <qrcode-vue
-                id="qr_code"
-                :value="client.id"
-                :size="300"
-                level="H"
-              ></qrcode-vue>
             </p>
           </div>
+
+
+
 
           <div class="modal-action">
             <form method="dialog">

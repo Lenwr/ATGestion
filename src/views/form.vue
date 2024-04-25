@@ -60,7 +60,7 @@ async function submitForm() {
       typeDeFret: customer.value.typeDeFret,
       destination: customer.value.destination,
       nombreDeColis: customer.value.nombreDeColis,
-      description: customer.value.description,
+      colis:  colisList.value,
       personneEnCharge: customer.value.personneEnCharge,
       prix: customer.value.prix,
       modeDePaiement: customer.value.modeDePaiement,
@@ -82,7 +82,7 @@ async function submitForm() {
          customer.value.typeDeFret = '' ,
          customer.value.destination = '' ,
          customer.value.nombreDeColis = '' ,
-         customer.value.description = '' ,
+         customer.value.colisList = [] ,
          customer.value.personneEnCharge = '' ,
          customer.value.prix = '' ,
          customer.value.modeDePaiement = '' ,
@@ -113,6 +113,15 @@ async function submitEnlevement(id) {
   // watch(change , (odlValue, newValue) =>{
   // })
 }
+
+
+
+const colisList = ref([{ nom: '' }]);
+
+const ajouterColis = () => {
+  colisList.value.push({ nom: ''});
+  console.log(colisList.value);
+};
 </script>
 
 <template>
@@ -300,21 +309,34 @@ async function submitEnlevement(id) {
 
         <div>
           <label
-            for="description"
+            for="Colis"
             class="block text-sm font-medium leading-6 text-gray-900"
           >
             Description du Colis
           </label>
           <div class="mt-2">
-            <input
+         <!--   <input
               id="description"
               name="description"
               v-model="customer.description"
               type="text"
               class="block h-[3em] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-4"
               placeholder="Cartons , Frigo . . . . "
-            />
+            /> -->
           </div>
+
+          <div class="text-black m-4" v-for="(colis, index) in colisList" :key="index">
+            <h3 class="m-1">Colis {{ index + 1 }}</h3>
+            <input type="text" v-model="colis.nom"  class="block h-[3em] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-4"
+                   placeholder="Cartons , Frigo . . . . "
+            >
+            <!-- Ajoutez d'autres champs pour le colis ici si nécessaire -->
+
+            <hr>
+          </div>
+
+          <button class=" btn btn-accent" type="button" @click="ajouterColis">Ajouter</button>
+
         </div>
 
         <div>
@@ -451,7 +473,13 @@ async function submitEnlevement(id) {
           >
             Enregistrer
           </button>
+
+
         </div>
+
+
+
+
       </form>
     </div>
   </div>

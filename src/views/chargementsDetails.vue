@@ -9,6 +9,9 @@ import {StreamBarcodeReader} from 'vue-barcode-reader'
 import {toast} from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 import Export from "../components/export.vue";
+import {isEqual} from "lodash";
+import {format} from "date-fns";
+import frLocale from "date-fns/locale/fr";
 
 const route = useRoute()
 const db = useFirestore()
@@ -23,12 +26,24 @@ return Liste.value.find((detail) => detail.id === detailId.value)
 const clientsFiltres = computed(() => {
   return enlevements.value.filter(client => liste.value.packagesTable.includes(client.id));
 });
-console.log(clientsFiltres.value)
+
 const chargement = ref({
   contenaire: '',
   date: '',
   packagesTable: []
 })
+
+const formatDateTime = (dateTimeString) => {
+  const date = new Date(dateTimeString)
+
+  return format(date, "EEEE d MMMM yyyy à HH'h' mm", { locale: frLocale })
+}
+
+const packageInfo = computed(() => {
+  return Liste.value.find((detail) => detail.id === detailId.value)
+})
+
+//test
 
 const onLoaded = () => {
   console.log('loaded')
@@ -44,16 +59,15 @@ async function updateChargement() {
   const updateChargementDoc = await updateDoc(docRef, data)
 }
 
-
 async function onDecode(text) {
+  const [expediteur, coli,date] = text.split(',');
   decodedText.value = text;
 
-  const Package = ref(text);
-
+  const Package = ref({expediteur, coli,date});
   //
-  if (!liste.value.packagesTable.includes(Package.value)) {
+  if (!packageInfo.value.packagesTable.some(item => isEqual(item, Package.value))) {
     const data = {
-      packagesTable: liste.value.packagesTable.concat(Package.value)
+      packagesTable: packageInfo.value.packagesTable.concat(Package.value)
     };
     const updateChargementDoc = await updateDoc(docRef, data);
     toast("Colis ajouté avec succès", {
@@ -63,7 +77,7 @@ async function onDecode(text) {
       "dangerouslyHTMLString": true
     })
   } else {
-    console.log(`Le package ${Package.value} est déjà présent dans packagesTable.`);
+    console.log(`Le colis ${Package.value.coli} de ${Package.value.expediteur} est déjà présent dans packagesTable.`);
   }
 }
 
@@ -133,32 +147,26 @@ async function onDecode(text) {
                   scope="col"
                   class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
               >
-                nom
+                Expéditeur
               </th>
               <th
                   scope="col"
                   class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
               >
-                nombre de Colis
+                 Colis
               </th>
               <th
                   scope="col"
                   class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
               >
-                description
-              </th>
-              <th
-                  scope="col"
-                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-              >
-                statut
+                Date
               </th>
             </tr>
             </thead>
             <tbody>
             <tr
                 class="bg-gray-100 border-b"
-                v-for="(item, i) in clientsFiltres"
+                v-for="(item, i) in packageInfo.packagesTable"
                 :key="i"
             >
               <td
@@ -169,18 +177,14 @@ async function onDecode(text) {
               <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
               >
-                {{ item.nombreDeColis }}
+                {{ item.coli }}
               </td>
               <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
               >
-                {{ item.description }}
+                {{formatDateTime(item.date )}}
               </td>
-              <td
-                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-              >
-                {{ item.statut }}
-              </td>
+
             </tr>
             </tbody>
           </table>
@@ -191,7 +195,7 @@ async function onDecode(text) {
 
   <div class="flex justify-center py-5">
 
-    <Export class="text-black  " :dataSend=clientsFiltres />
+    <Export class="text-black  " :dataSend=packageInfo.packagesTable />
   </div>
 
   <div class="flex items-center justify-center "><img src="/images/chargements.jpg" alt=""
