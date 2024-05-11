@@ -58,12 +58,12 @@ onMounted(() => {
         class="input input-bordered input-accent w-full max-w-xs"
       />
       <div
-        class="dropdown my-4"
+        class="dropdown max-h-[150px] overflow-y-auto w-full max-w-xs  my-4"
         :class="{ show: filteredList.length > 0 && query.trim() !== '' }"
         ref="dropdownRef"
       >
         <div
-          class="text-black dropdown-item"
+          class="text-black  dropdown-item"
           v-for="item in filteredList"
           :key="item.id"
           @click="() => selectItem(item)"
@@ -74,3 +74,6 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
+
+

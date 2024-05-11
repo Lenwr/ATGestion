@@ -41,6 +41,24 @@ async function addCustomer() {
   //await router.push({ path: '/customersDetails/:'+ temp.id })
 }
 
+const suggestions = ref([])
+const filterItems = () => {
+  if (customer.value.nom.trim() === '') {
+    suggestions.value = []
+    return
+  }
+
+  const lowerCaseQuery = customer.value.nom.toLowerCase().trim()
+  suggestions.value = Liste.value.filter(
+      (item) => item.nom && item.nom.toLowerCase().includes(lowerCaseQuery)
+  )
+}
+
+const selectItem = (item) => {
+  customer.value.nom = item.nom
+  suggestions.value = []
+  router.push(`/customersDetails/${item.id}`)
+}
 
 </script>
 
@@ -73,9 +91,20 @@ async function addCustomer() {
                 id="nom"
                 name="nom"
                 v-model="customer.nom"
+                @input="filterItems"
                 class="block h-[3em] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-4"
                 placeholder="Nom"
             />
+            <div v-if="suggestions.length > 0" class="autocomplete block w-full max-w-xxs rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-4">
+              <div
+                  v-for="suggestion in suggestions"
+                  :key="suggestion.id"
+                  @click="selectItem(suggestion)"
+                  class="suggestion"
+              >
+                {{ suggestion.nom }}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -166,4 +195,22 @@ async function addCustomer() {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.autocomplete {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 150px; /* limiter la hauteur pour la rendre scrollable */
+
+  overflow-y: auto;
+}
+
+.suggestion {
+  padding: 5px;
+  cursor: pointer;
+  color: black;
+}
+
+.suggestion:hover {
+  background-color: #f0f0f0;
+}
+</style>

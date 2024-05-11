@@ -141,7 +141,7 @@ const options = reactive({
       <button class="btn btn-accent " onclick="my_modal_3.showModal()">Ajouter un chargement</button>
     </div>
     <div class="  h-screen flex flex-row ">
-      <div class=' mobile:hidden demo-app-sidebar w-[20%] flex flex-col items-center mt-[5%] '>
+      <div class='displayChargements mobile:hidden demo-app-sidebar w-[20%] flex flex-col items-center mt-[5%] '>
         <div class='demo-app-sidebar-section  text-black'>
           <h2>Tous les chargements ({{ options.currentEvents.length }})</h2>
 
@@ -205,3 +205,10 @@ mobile:text-[0.5em] mobile:w-[100%]  w-[80%]'
 
 
 </template>
+
+<style scoped>
+.displayChargements{
+  max-height: 60%; /* limiter la hauteur pour la rendre scrollable */
+  overflow-y: auto;
+}
+</style>

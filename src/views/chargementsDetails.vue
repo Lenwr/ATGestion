@@ -60,10 +60,10 @@ async function updateChargement() {
 }
 
 async function onDecode(text) {
-  const [expediteur, coli,date] = text.split(',');
+  const [expediteur, coli,date,id] = text.split(',');
   decodedText.value = text;
 
-  const Package = ref({expediteur, coli,date});
+  const Package = ref({expediteur, coli,date,id});
   //
   if (!packageInfo.value.packagesTable.some(item => isEqual(item, Package.value))) {
     const data = {
@@ -73,11 +73,16 @@ async function onDecode(text) {
     toast("Colis ajouté avec succès", {
       "theme": "auto",
       "type": "success",
-      "autoClose": 1000,
+      "autoClose": 2000,
       "dangerouslyHTMLString": true
     })
   } else {
-    console.log(`Le colis ${Package.value.coli} de ${Package.value.expediteur} est déjà présent dans packagesTable.`);
+    toast(`Le colis ${Package.value.coli} de ${Package.value.expediteur} est déjà présent dans le chargement.`, {
+      "theme": "auto",
+      "type": "success",
+      "autoClose": 2000,
+      "dangerouslyHTMLString": true
+    })
   }
 }
 
@@ -159,7 +164,7 @@ async function onDecode(text) {
                   scope="col"
                   class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
               >
-                Date
+                Date d'enlèvement
               </th>
             </tr>
             </thead>
