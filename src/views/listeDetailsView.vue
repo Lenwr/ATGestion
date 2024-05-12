@@ -84,6 +84,7 @@ async function updateStatut(id) {
     deliveryStatus: change.value,
   })
 
+
   // watch(change , (odlValue, newValue) =>{
   // })
 }
@@ -174,16 +175,16 @@ const makePDF = (client) => {
     //information destinataire
     pdf.setDrawColor(0)
     pdf.setFillColor(50, 205, 50)
-    pdf.rect(135, 52, 60, 7, 'F')
+    pdf.rect(124, 52, 60, 7, 'F')
     pdf.setFontSize(15)
     pdf.setTextColor(255, 255, 255)
-    pdf.text('DESTINATAIRE ', 140, 58)
+    pdf.text('DESTINATAIRE ', 125, 58)
     pdf.setFontSize(12)
     pdf.setTextColor(0, 0, 0)
-    pdf.text(client.destinataire.toUpperCase(), 135, 65)
-    pdf.text('Téléphone : ' + client.telephoneDestinataire, 135, 71)
-    pdf.text('', 135, 75)
-    pdf.text('', 135, 80)
+    pdf.text(client.destinataire.toUpperCase(), 125, 65)
+    pdf.text('Téléphone : ' + client.telephoneDestinataire, 125, 71)
+    pdf.text('', 125, 75)
+    pdf.text('', 125, 80)
 
     //tableau
     //const totalCarton : any = (120 * (this.user.attributes.cardBoardQuantity)).toString()
@@ -291,7 +292,7 @@ const qrCodeColis = (item , index) => {
     let pdf = new jsPDF('p', 'mm', 'a6')
     //informations entreprise
 
-    pdf.setFontSize(13)
+    pdf.setFontSize(10)
     pdf.text('DESTINATAIRE : ' + client.value.destinataire.toUpperCase(), 5, 10)
     pdf.text('TELEPHONE : '+ client.value.telephoneDestinataire, 5, 20)
     pdf.text('DESTINATION : ' + client.value.destination, 5, 30)
