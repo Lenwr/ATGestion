@@ -299,13 +299,13 @@ const qrCodeColis = (item , index) => {
     pdf.text('COLI :' + (index+1) +'/'+client.value.nombreDeColis+ '  ' + item.toUpperCase() , 5, 40)
 
     //qrCode
-    pdf.addImage(imageBase64, 'JPEG', 20, 75, 60, 60)
+    pdf.addImage(imageBase64, 'JPEG', 30, 55, 50, 50)
 
     //decoupage borderau
     pdf.setLineWidth(0.5)
 
     pdf.line(4, 4, 100, 4)
-    pdf.line(4, 70, 100, 70)
+   pdf.line(4, 50, 100, 50)
     pdf.line(4, 140, 100, 140)
     pdf.line(4, 4, 4, 140)
     pdf.line(100, 4, 100, 140)
