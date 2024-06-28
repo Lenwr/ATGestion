@@ -16,16 +16,21 @@ const chargement = []
 
 const onDecode = (text) => {
   decodedText.value = text
-  const [expediteur, coli,date,id] = text.split(',');
-  const Package = ref({expediteur, coli,date,id});
-  const detailId = Package.value.id
-  console.log(detailId)
-  const client = computed(() => {
-    return datas.value.find((detail) => detail.id === detailId)
-  })
-  Client = client.value
-  console.log(Client.expediteur)
-  router.push({ path: '/liste/' + Client.id })
+  if (test.length > 0){
+    const [expediteur, coli,date,id] = text.split(',');
+    const Package = ref({expediteur, coli,date,id});
+    const detailId = Package.value.id
+    console.log(detailId)
+    const client = computed(() => {
+      return datas.value.find((detail) => detail.id === detailId)
+    })
+    Client = client.value
+    console.log(Client.expediteur)
+    router.push({ path: '/liste/' + Client.id })
+  } else {
+    router.push({ path: '/liste/' + decodedText.value })
+  }
+
 }
 </script>
 
