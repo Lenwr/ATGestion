@@ -70,7 +70,7 @@ const handleClick = (item) => {
       })
 
 }
-let passTitleInput
+let today = new Date();
 
 const addLoading= async ( ) => {
   const eventCollection = collection(db, 'events');
@@ -90,6 +90,17 @@ const addLoading= async ( ) => {
     "dangerouslyHTMLString": true
   })
 }
+
+function formattedDate(item){
+  // Extraire le mois, le jour et l'année
+  let month = (item.getMonth() + 1).toString().padStart(2, '0'); // Les mois sont 0-indexés, donc ajouter 1
+  let day = item.getDate().toString().padStart(2, '0');
+  let year = item.getFullYear();
+
+// Construire la chaîne au format MM/JJ/AAAA
+  return `${year}/${month}/${day}`;
+}
+
 
 const options = reactive({
   handleWindowResize : true ,
@@ -147,8 +158,9 @@ const options = reactive({
 
           <ul>
             <li v-for='event in options.currentEvents' :key='event.id'>
-              <b>{{ event.startStr }}</b>
-              <i>{{ event.title }}</i>
+             <i>
+                {{ event.start}}
+                </i>
             </li>
           </ul>
         </div>

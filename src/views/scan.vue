@@ -16,7 +16,7 @@ const chargement = []
 
 const onDecode = (text) => {
   decodedText.value = text
-  if (test.length > 0){
+  if (decodedText.value.includes(',')){
     const [expediteur, coli,date,id] = text.split(',');
     const Package = ref({expediteur, coli,date,id});
     const detailId = Package.value.id
@@ -25,9 +25,8 @@ const onDecode = (text) => {
       return datas.value.find((detail) => detail.id === detailId)
     })
     Client = client.value
-    console.log(Client.expediteur)
     router.push({ path: '/liste/' + Client.id })
-  } else {
+  }  else {
     router.push({ path: '/liste/' + decodedText.value })
   }
 
