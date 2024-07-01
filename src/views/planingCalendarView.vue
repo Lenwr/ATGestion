@@ -159,7 +159,7 @@ const options = reactive({
           <ul>
             <li v-for='event in options.currentEvents' :key='event.id'>
              <i>
-                {{ event.start}}
+                {{ event.title}}
                 </i>
             </li>
           </ul>
