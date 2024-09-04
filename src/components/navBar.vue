@@ -2,7 +2,7 @@
 // import SelectCustomersView from '../views/selectCustomersView.vue';
 import router from "../router/index.js";
 function connexion (){
-  router.push({ path: '/register'})
+  router.push({ path: '/login'})
 }
 
 </script>
@@ -41,7 +41,7 @@ function connexion (){
     <div v-if="displaySearchBar" class="navbar-center">
       <!-- <SelectCustomersView /> -->
       <div>
-        
+
       </div>
     </div>
     <div class="navbar-end">

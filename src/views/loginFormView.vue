@@ -1,24 +1,11 @@
-<script >
-import {signInWithEmailAndPassword} from 'firebase/auth'
-import {auth} from "../components/firebaseConfig.js";
-export default {
-  data(){
-   return{
-     email: '' ,
-     motDePasse:''
-   }
-  },
-  methods:{
-    login(){
-      signInWithEmailAndPassword(auth , this.email ,this.motDePasse)
-          .then(()=>{
-            this.$emit('loggedIn')
-          })
-    }
-  }
+<script setup >
+import {useAuthStore} from "../stores/useAuthStore.js";
+
+
+const store = useAuthStore()
+const login = async()=>{
+  await store.login()
 }
-
-
 </script>
 
 <template>
@@ -34,7 +21,7 @@ export default {
         <div>
           <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
           <div class="mt-2">
-            <input id="email" name="email" v-model="email" type="email" autocomplete="email" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            <input id="email" name="email" v-model="store.email" type="email" autocomplete="email" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
           </div>
         </div>
 
@@ -43,7 +30,7 @@ export default {
             <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Mot de passe</label>
           </div>
           <div class="mt-2">
-            <input id="password" name="password" v-model="motDePasse" type="password" autocomplete="current-password" required="" class="block w-full rounded-md border-0 py-1.5 text-accent shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            <input id="password" name="password" v-model="store.password" type="password" autocomplete="current-password" required="" class="block w-full rounded-md border-0 py-1.5 text-accent shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
           </div>
         </div>
 

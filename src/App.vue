@@ -1,35 +1,20 @@
 <script setup>
 
-import LoginFormView from './views/loginFormView.vue'
-import SignUpFormView from './views/signUpFormView.vue'
 import {useRouter} from "vue-router";
+import {useAuthStore} from "./stores/useAuthStore.js";
 
 const router = useRouter()
 import NavBar from './components/navBar.vue'
 import {onMounted, ref} from "vue";
-import {getAuth, onAuthStateChanged, signOut} from "firebase/auth";
+const userLogged = ref('')
 
-let auth;
-const isLoggedIn = ref(false)
+const store = useAuthStore()
 onMounted(() => {
-  auth = getAuth();
-  onAuthStateChanged(auth, user => {
-    if (user) {
-      isLoggedIn.value = true
-    } else {
-      isLoggedIn.value = false
-    }
-  })
+  store.init()
+  userLogged.value= store.user
 })
-console.log(auth)
-const logOut = () => {
-  new Promise((resolve, reject)=>{
-    resolve( signOut(auth))
-    console.log('this work')
-  })
- .then(() => {
-    router.push('/register')
-  })
+const logOut = async () => {
+  await store.logout()
 }
 
 </script>
@@ -46,18 +31,6 @@ const logOut = () => {
 
         <div class="h-screen w-screen">
           <div>
-            <template>
-
-              <p class="text-black text-center">
-                Pas encore de compte
-                <span
-                    @click="showLogin = false"
-                    class="cursor-pointer bg-primary rounded text-accent"
-                >
-                  Inscription
-                </span>
-              </p>
-            </template>
           </div>
 
           <div class="bg-white">
@@ -128,6 +101,9 @@ const logOut = () => {
           </label>
         </div>
       </div>
+
+
+
       <div class="drawer-side">
         <label
             for="my-drawer"
@@ -139,12 +115,12 @@ const logOut = () => {
           <li class="text-white text-2xl">
            AARON TRAVEL
           </li>
+          <li class="text-white py-4 ">
+           {{userLogged.email}}
+          </li>
           <li class="text-white">
             <router-link to="/planing">Planing</router-link>
           </li>
-          <!-- <li v-if="isLoggedIn" class="text-white">
-            <router-link to="/dailyTasks">todoListe</router-link>
-          </li> -->
           <li class="text-white" @click="logOut">
             <a>se deconnecter</a>
           </li>

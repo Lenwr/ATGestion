@@ -3,8 +3,6 @@ import HomeView from '../views/HomeView.vue'
 import Form from '../views/form.vue'
 import ListeView from '../views/listeView.vue'
 import ListeDetailsView from '../views/listeDetailsView.vue'
-import SignUpFormView from '../views/signUpFormView.vue'
-import App from '../App.vue'
 import QrCodeView from '../views/planingCalendarView.vue'
 import SoumissionFormulaire from '../views/soumissionFormulaire.vue'
 import Scan from '../views/scan.vue'
@@ -21,18 +19,32 @@ import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {toast} from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 import {get} from "@vueuse/core";
+import LoginFormView from "../views/loginFormView.vue";
+import {useAuthStore} from "../stores/useAuthStore.js";
 // import DailyTasksAppView from '../views/dailyTasks/DailyTasksAppView.vue'
+
+const requireAuth = (to ,from , next )=>{
+    let store = useAuthStore()
+    if(!store.user){
+        next({name:'login'})
+    }else {
+        next()
+    }
+}
+
 
 const router = createRouter({
     history: createWebHashHistory(),
     linkActiveClass: 'classActive',
     routes: [
         {
-            path: '/register',
-            component: SignUpFormView,
+            path: '/login',
+            name: 'login',
+            component: LoginFormView,
         },
         {
             path: '/',
+            name:'home',
             component: HomeView,
         },
         {
