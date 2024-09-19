@@ -119,6 +119,9 @@ const logOut = async () => {
            {{userLogged.email}}
           </li>
           <li class="text-white">
+            <router-link to="/tasks">Trajets</router-link>
+          </li>
+          <li class="text-white">
             <router-link to="/planing">Planing</router-link>
           </li>
           <li class="text-white" @click="logOut">

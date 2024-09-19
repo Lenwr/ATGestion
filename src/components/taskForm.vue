@@ -1,0 +1,61 @@
+<script setup>
+import {useTasksStore} from "../stores/tasksStore.js";
+import {ref} from "vue";
+import {autofill, config, MapboxAddressAutofill} from '@mapbox/search-js-web'
+
+const taskStore = useTasksStore()
+const colis = ref('')
+const adresse = ref('')
+
+
+const handleSubmit = () => {
+  if(colis.value.length >0 && adresse.value.length > 0 ){
+    taskStore.addTask({
+      id: Math.floor(Math.random()*10000) ,
+      text : colis.value ,
+      adresse: adresse.value,
+      status: false
+    })
+    colis.value =''
+    adresse.value =''
+  }
+}
+
+config.accessToken = 'pk.eyJ1IjoibGVud3IiLCJhIjoiY2t4NjI3Mjd5MmFuaTJ5cHpid3EzbjgxZiJ9.LDoHXgxnjHi9lHTmW6DtuA'
+
+const autofillElement = new MapboxAddressAutofill()
+
+autofill({
+  options: {
+    country: 'us'
+  }
+})
+
+const inputAddress = ref('')
+
+
+autofillElement.appendChild(document.createElement("p"))
+document.getElementById('adress1').parentElement.appendChild(autofillElement)
+
+
+
+</script>
+
+<template>
+
+  <div>
+    <form>
+      <p>{{inputAddress}}</p>
+      <input v-model="inputAddress" id="adress1" class="input bg-white border-accent" placeholder="adress1" type="text" name="address-1" autocomplete="address-line1" />
+      <input class="input bg-white border-accent" placeholder="adress2" type="text" name="address-2" autocomplete="address-line2" />
+      <input class="input bg-white border-accent" placeholder="lv1" type="text" name="city" autocomplete="address-level2" />
+      <input class="input bg-white border-accent" placeholder="lv2" type="text" name="state" autocomplete="address-level1" />
+      <input class="input bg-white border-accent" placeholder="ZIP" type="text" name="zip" autocomplete="postal-code" />
+    </form>
+  </div>
+
+</template>
+
+<style scoped>
+
+</style>

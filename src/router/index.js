@@ -21,6 +21,7 @@ import "vue3-toastify/dist/index.css";
 import {get} from "@vueuse/core";
 import LoginFormView from "../views/loginFormView.vue";
 import {useAuthStore} from "../stores/useAuthStore.js";
+import Trajets from "../views/trajets.vue";
 // import DailyTasksAppView from '../views/dailyTasks/DailyTasksAppView.vue'
 
 const requireAuth = (to ,from , next )=>{
@@ -41,6 +42,11 @@ const router = createRouter({
             path: '/login',
             name: 'login',
             component: LoginFormView,
+        },
+        {
+            path: '/tasks',
+            name: 'tasks',
+            component: Trajets,
         },
         {
             path: '/',
