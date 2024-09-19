@@ -64,7 +64,7 @@ const formatDateTime = (dateTimeString) => {
 </script>
 
 <template>
-  <div class="bg-white h-auto flex flex-col items-center">
+  <div class="bg-green-50 h-auto flex flex-col items-center">
     <!-- <return route="" /> -->
     <div class="my-2 w-[95%] shadow-2xl">
       <form class="">

@@ -16,7 +16,7 @@ defineProps({
 
 </script>
 <template>
-  <div class="p-1 sm:p-1 text-black font-bold w-full">
+  <div class="p-1 sm:p-1 text-black w-full">
     <div class="flex shadow-2xl sm:shadow px-2 rounded  flex-col bg-no-repeat bg-contain bg-right bg-[url('https://www.svgrepo.com/show/469769/shipping-box-left.svg')] ">
       <div class="up bg-white h-[4em] rounded-t p-2 flex flex-row justify-between opacity-90">
         <div class="flex flex-row ">
