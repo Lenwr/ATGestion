@@ -16,11 +16,10 @@ defineProps({
 
 </script>
 <template>
-  <div class="p-1 sm:p-1 text-black w-full">
-    <div class="flex shadow-2xl sm:shadow px-2 rounded  flex-col bg-no-repeat bg-contain bg-right bg-[url('https://www.svgrepo.com/show/469769/shipping-box-left.svg')] ">
-      <div class="up bg-white h-[4em] rounded-t p-2 flex flex-row justify-between opacity-90">
+    <div class="flex h-[166px]  hover:border-4 hover:border-green-800 text-black m-1 shadow rounded  flex-col bg-no-repeat bg-contain bg-right bg-[url('https://www.svgrepo.com/show/469769/shipping-box-left.svg')] ">
+      <div class="up bg-white h-[50%] rounded-t p-2 flex flex-row justify-between opacity-90">
         <div class="flex flex-row ">
-          <img class="w-[3em] rounded-full object-cover " :src="image" alt="">
+          <img class="w-[4em] rounded-full object-cover " :src="image" alt="">
           <div class="flex flex-col px-2">
             <p class="text-xs">{{date}}</p>
             <p>{{nbreColis}} Colis </p>
@@ -32,7 +31,7 @@ defineProps({
                   'text-green-500': statut === 'Payé',
                 }" >{{ statut ? statut : "Non dispo" }}</p>
       </div>
-      <div class="down bg-white rounded-b flex flex-row justify-around py-4 opacity-90">
+      <div class="down bg-white h-[50%] rounded-b flex flex-row justify-around py-4 opacity-90">
         <div class="flex flex-col w-[30%] ">
           <p class="text-xs text-center"> de : France </p>
           <p class="text-center"> {{expediteur ? expediteur : "Non dispo"}}</p>
@@ -45,7 +44,6 @@ defineProps({
           <p class="text-center"> {{destinateur ? destinateur : "Non dispo"}}</p>
         </div>
       </div>
-    </div>
       </div>
 
 </template>

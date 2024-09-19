@@ -64,7 +64,7 @@ const formatDateTime = (dateTimeString) => {
 </script>
 
 <template>
-  <div class="bg-green-50 h-auto flex flex-col items-center">
+  <div class="bg-green-50 min:h-screen flex flex-col items-center">
     <!-- <return route="" /> -->
     <div class="my-2 w-[95%] shadow-2xl">
       <form class="">
@@ -112,14 +112,14 @@ const formatDateTime = (dateTimeString) => {
         </div>
       </form>
     </div>
-    <div class="listColis">
-      <ul role="list" class="md:grid grid-cols-3">
+    <div class="listColis w-full">
+      <ul role="list" class="sm:grid grid-cols-3">
         <router-link
           v-for="liste in searchList"
           :key="liste.id"
           :to="'/liste/' + liste.id"
         >
-          <li class=" ">
+          <li class="w-full ">
 <list-card :image="liste.imageUrl" :date="liste.date ? formatDateTime(liste.date) :'Non dispo' " :nbre-colis="liste.nombreDeColis" :statut="liste.statut" :expediteur="liste.expediteur" :destinateur="liste.destinataire" :destination="liste.destination"/>
           </li>
         </router-link>
