@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app'
 import { getFirestore, collection } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
 import {getAuth} from 'firebase/auth'
+import {useCollection} from "vuefire";
 // ... other firebase imports
 
 export const firebaseApp = initializeApp({
@@ -15,13 +16,13 @@ export const firebaseApp = initializeApp({
 })
 
 // used for the firestore refs
-const db = getFirestore(firebaseApp)
+export const db = getFirestore(firebaseApp)
 
 
 const storage = getStorage(firebaseApp)
 
-// here we can export reusable database references
-export const eventsRef = collection(db, 'enlevements')
+// here we can export reusable database reference
 export const auth = getAuth()
-
-export { storage }
+export const listeEnlevements = useCollection(collection(db, 'enlevements'))
+export const listeCustomers = useCollection(collection(db, 'customers'))
+export { storage  }

@@ -16,6 +16,7 @@
     "@fullcalendar/timegrid": "^6.1.9",
     "@fullcalendar/vue3": "^6.1.9",
     "@keeex/qrcodejs-kx": "^1.0.2",
+    "@lottiefiles/dotlottie-vue": "^0.5.3",
     "@mapbox/search-js-web": "^1.0.0-beta.22",
     "@vueuse/core": "^10.5.0",
     "date-fns": "^2.30.0",

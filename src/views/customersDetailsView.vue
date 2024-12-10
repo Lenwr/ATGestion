@@ -133,49 +133,57 @@ const ajouterColis = () => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center">
+  <div class="flex flex-col items-center p-6 bg-gray-100 min-h-screen">
+    <!-- Titre principal -->
     <span
-      class="bg-base-100 my-5 px-10 rounded-md shadow-2xl text-[2em] text-white"
+        class="bg-indigo-600 text-white my-6 px-12 py-3 rounded-lg shadow-lg text-2xl font-semibold"
     >
-      Enlèvements
-    </span>
-    <p v-for="item in liste" :key="item"></p>
+    Enlèvements
+  </span>
+
+    <!-- Bouton d'ajout -->
     <span
-      class="flex flex-row items-center bg-primary my-5 px-4 py-1 rounded-2xl shadow-2xl text-[1.5em] text-white"
-      onclick="send.showModal()"
-
+        class="flex items-center bg-green-500 text-white px-6 py-2 my-6 rounded-full shadow-lg text-lg font-medium hover:bg-green-600 transition duration-300 cursor-pointer"
+        @click="send.showModal()"
     >
-      Nouvel Envoi <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-[1.8em] pl-4"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-    </span>
+    Nouvel Envoi
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="w-6 h-6 ml-2"
+    >
+      <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    </svg>
+  </span>
 
-    <div class="flex flex-col w-full">
+    <!-- Liste des enlèvements -->
+    <div class="flex flex-col w-full space-y-4">
       <div
-        v-for="(item, i) in listeColis"
-        :key="i"
-        class="bg-[#EFFAED] px-6 text-[1em] h-[5em] w-full text-black flex items-center justify-center"
+          v-for="(item, i) in listeColis"
+          :key="i"
+          class="bg-white border border-gray-200 px-6 py-4 rounded-lg shadow-sm flex justify-between items-center hover:shadow-md transition duration-300"
       >
-        <span class="text-black px-4">
-          Enlevement du {{ formatDateTime(item.date) }}
-        </span>
+      <span class="text-gray-700 font-medium">
+        Enlèvement du {{ formatDateTime(item.date) }}
+      </span>
         <router-link :to="'/liste/' + item.id">
-          <button class="btn outline-secondary">voir</button>
+          <button
+              class="bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600 transition duration-300"
+          >
+            Voir
+          </button>
         </router-link>
       </div>
     </div>
   </div>
+
 
   <dialog id="send" class="modal">
     <div class="modal-box h-[60%] bg-white text-black">
@@ -202,40 +210,6 @@ const ajouterColis = () => {
           </div>
         </div>
 
-        <!-- <div>
-          <label
-            for="expediteur"
-            class="block text-sm font-medium leading-6 text-gray-900"
-          >
-            Expéditeur
-          </label>
-          <div class="mt-2">
-            <input
-              id="expediteur"
-              name="expediteur"
-              v-model="customer.expediteur"
-              class="block h-[3em] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-4"
-            />
-          </div>
-        </div> -->
-
-        <!-- <div class="telephoneExpediteur">
-          <label
-            for="telephoneExpediteur"
-            class="block text-sm font-medium leading-6 text-gray-900"
-          >
-            Telephone Expediteur
-          </label>
-          <div class="mt-2">
-            <input
-              type="tel"
-              id="telephoneExpediteur"
-              name="telephoneExpediteur"
-              v-model="customer.telephoneExpediteur"
-              class="block h-[3em] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-4"
-            />
-          </div>
-        </div> -->
 
         <div>
           <label

@@ -1,7 +1,7 @@
 <script setup>
 import {useTasksStore} from "../stores/tasksStore.js";
 import {ref} from "vue";
-import {autofill, config, MapboxAddressAutofill} from '@mapbox/search-js-web'
+import {config} from "@mapbox/search-js-web";
 
 const taskStore = useTasksStore()
 const colis = ref('')
@@ -23,19 +23,7 @@ const handleSubmit = () => {
 
 config.accessToken = 'pk.eyJ1IjoibGVud3IiLCJhIjoiY2t4NjI3Mjd5MmFuaTJ5cHpid3EzbjgxZiJ9.LDoHXgxnjHi9lHTmW6DtuA'
 
-const autofillElement = new MapboxAddressAutofill()
-
-autofill({
-  options: {
-    country: 'us'
-  }
-})
-
 const inputAddress = ref('')
-
-
-autofillElement.appendChild(document.createElement("p"))
-document.getElementById('adress1').parentElement.appendChild(autofillElement)
 
 
 

@@ -338,50 +338,68 @@ const qrCodeColis = (item , index) => {
         />
       </div>
       <div class="down w-[40%] h-auto">
-        <span class="flex flex-row justify-around my-4">
-          <h1 class="mt-4 text-xl font-medium text-gray-700">Expéditeur</h1>
+
+
+        <!-- Statut -->
+        <div class="flex items-center justify-between my-4">
+          <h1 class="text-xl font-semibold text-gray-700">Expéditeur</h1>
           <p
-              class="textarea-lg leading-5 border-2 text-black rounded-2xl w-[40%]"
+              class="px-4 py-2 text-sm font-medium rounded-full text-white"
               :class="{
-              'bg-error': client.statut === 'Non Payé',
-              'bg-secondary': client.statut === 'Reste à payer',
-              'bg-white': client.statut === 'Payé',
-            }"
+          'bg-red-500': client.statut === 'Non Payé',
+          'bg-yellow-500': client.statut === 'Reste à payer',
+          'bg-green-500': client.statut === 'Payé',
+        }"
           >
             {{ client.statut }}
           </p>
-        </span>
-        <h1 class="mt-4 text-xl font-medium text-gray-700">
+        </div>
+
+
+
+
+        <!-- Informations principales -->
+        <h1 class="text-xl font-medium text-gray-700 mt-4">
           {{ client.expediteur }}
         </h1>
-        <h1 class="mt-4 text-xl font-medium text-gray-700">
-          Destinataire du Colis
-        </h1>
-        <h1 class="mt-4 text-xl font-medium text-gray-700">
-          {{ client.destinataire }}
-        </h1>
-        <h1 class="mt-4 text-xl font-medium text-gray-700">Colis enlevé à :</h1>
-        <p v-if="client.date" class="mt-1 text-sm font-medium text-gray-900">
+        <h1 class="text-xl font-medium text-gray-700 mt-4">Destinataire du Colis</h1>
+        <p class="text-gray-700 text-base mt-2">{{ client.destinataire }}</p>
+        <h1 class="text-xl font-medium text-gray-700 mt-4">Colis enlevé à :</h1>
+        <p v-if="client.date" class="text-gray-600 text-sm mt-2">
           {{ formatDateTime(client.date) }}
         </p>
-        <h1 class="mt-4 text-xl font-medium text-gray-700">
+        <h1 class="text-xl font-medium text-gray-700 mt-4">
           Description du colis :
         </h1>
-        <p class="mt-1 text-sm font-medium text-gray-900">
-          {{client.description}}
+        <p class="text-gray-600 text-sm mt-2">{{ client.description }}</p>
 
-        </p>
-        <div v-if="client.colis">
-          <div v-for="(item, index) in client.colis" class="flex flex-row p-2 justify-around items-center"  >
-            <h1 class="mt-2 text-black p-2 h-auto">{{ index + 1}}/{{client.nombreDeColis}}</h1>
-            <h1 class="mt-2 text-black p-2 h-auto">{{ item.nom }}</h1>
+
+
+        <!-- Liste des Colis -->
+        <div v-if="client.colis" class="mt-6">
+          <h1 class="text-lg font-medium text-gray-700 mb-4">
+            Liste des colis :
+          </h1>
+          <div
+              v-for="(item, index) in client.colis"
+              :key="index"
+              class="flex items-center justify-between bg-gray-100 rounded-lg shadow-md px-4 py-3 mb-4"
+          >
+            <p class="text-gray-700 font-medium">
+              {{ index + 1 }}/{{ client.nombreDeColis }} - {{ item.nom }}
+            </p>
             <qrcode-vue class="hidden"
                         :id="item.nom"
                         :value="`${client.expediteur},${item.nom},${client.date},${client.id}`"
                         :size="300"
                         level="H"
             ></qrcode-vue>
-            <button class="btn btn-accent" @click="qrCodeColis(item.nom , index)"> QrCode </button>
+            <button
+                class="bg-indigo-500 text-white px-3 py-1 rounded-lg hover:bg-indigo-600 transition duration-300"
+                @click="qrCodeColis(item.nom, index)"
+            >
+              QrCode
+            </button>
           </div>
         </div>
 
@@ -390,12 +408,13 @@ const qrCodeColis = (item , index) => {
         <h1 class="mt-4 text-xl font-medium text-gray-700">Nombre de Colis</h1>
         <p class="mt-1 text-gray-500 h-14">{{ client.nombreDeColis }}</p>
 
-        <p class="mt-4 text-xl font-medium text-gray-700 my-4">
-          Statut du colis :
+        <!-- Statut du colis -->
+        <div class="my-4">
+          <h1 class="text-xl font-medium text-gray-700">Statut du colis :</h1>
           <select
               v-on:change="updateStatut(client.id)"
               id="sel"
-              class="sm:select sm:bg-gray-100 bg-gray-100 mobile:w-30 mobile:py-4 mobile:px-4"
+              class="w-full mt-2 border border-gray-300 rounded-lg bg-gray-50 px-3 py-2 text-gray-700"
           >
             <option selected disabled>{{ client.deliveryStatus }}</option>
             <option disabled>- - - -</option>
@@ -403,13 +422,10 @@ const qrCodeColis = (item , index) => {
             <option>Envoyé</option>
             <option>Réceptionné</option>
           </select>
-        </p>
+        </div>
 
-        <router-link to="/liste">
-          <button class="btn btn-outline text-black shadow-2xl w-full">
-            Retour
-          </button>
-        </router-link>
+
+<div class="flex flex-wrap gap-4 mt-6">
         <qrcode-vue
             class="hidden"
             id="qr_code"
@@ -418,35 +434,44 @@ const qrCodeColis = (item , index) => {
             level="H"
         ></qrcode-vue>
         <button
-            class="btn btn-outline text-black mt-4 shadow-2xl w-full mb-10"
+            class="w-full bg-indigo-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-600 transition duration-300"
             @click="makePDF(client)"
         >
           Bordereau de livraison
         </button>
         <button
-            class="btn btn-outline text-black mt-2 shadow-2xl w-full mb-2"
+            class="w-full bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition duration-300"
             @click="downloadQR(client)"
         >
           Générer code Qr
         </button>
-        <span class="flex flex-row justify-around items-center">
-          <a>
-            <button
-                class="bn632-hover bg-primary mx-1"
+</div>
+
+<div class="flex justify-between mt-6">
+
+
+           <button
+                class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 mb-12"
                 onclick="update.showModal()"
             >
               Modifier
             </button>
-          </a>
           <a @click="deleteCustomer(client.id)">
             <button
-                class="bn632-hover bn28 mx-1"
+                class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300"
                 onclick="my_delete_modal.showModal()"
             >
               Supprimer
             </button>
           </a>
-        </span>
+  <router-link to="/liste">
+    <button
+        class="w-full bg-gray-200 text-gray-700 px-4 py-2 rounded-lg shadow-md hover:bg-gray-300 transition duration-300"
+    >   Retour
+    </button>
+  </router-link>
+
+</div>
       </div>
 
       <!-- Mise en place du Qr Code 2  -->

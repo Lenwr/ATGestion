@@ -5,12 +5,8 @@ import { collection } from 'firebase/firestore'
 import { format } from 'date-fns'
 import frLocale from 'date-fns/locale/fr'
 import { computed, ref, watch } from 'vue'
-import ListeDetailsView from "./listeDetailsView.vue";
 import ListCard from "../components/listCard.vue";
-
-const db = useFirestore()
-console.log(db)
-const Liste = useCollection(collection(db, 'enlevements'))
+import {listeEnlevements} from "../components/firebaseConfig.js";
 
 const isTabActive = (destination) => selectedDestination.value === destination
 
@@ -20,7 +16,7 @@ const statuts = ['', 'Non Payé', 'Reste à payer', ' Payé']
 const destinations = ['', 'BENIN', 'TOGO', 'CONGO', 'GABON', 'SENEGAL']
 
 const filteredList = computed(() => {
-  let filtered = Liste.value;
+  let filtered = listeEnlevements.value
 
   // Apply filtering conditions
   if (selectedDestination.value) {
@@ -112,19 +108,32 @@ const formatDateTime = (dateTimeString) => {
         </div>
       </form>
     </div>
-    <div class="listColis w-full">
-      <ul role="list" class="sm:grid grid-cols-3">
+    <div class="listColis px-4 w-full">
+      <ul
+          role="list"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+      >
         <router-link
-          v-for="liste in searchList"
-          :key="liste.id"
-          :to="'/liste/' + liste.id"
+            v-for="liste in searchList"
+            :key="liste.id"
+            :to="'/liste/' + liste.id"
+            class="block transition-transform transform hover:scale-105"
         >
-          <li class="w-full ">
-<list-card :image="liste.imageUrl" :date="liste.date ? formatDateTime(liste.date) :'Non dispo' " :nbre-colis="liste.nombreDeColis" :statut="liste.statut" :expediteur="liste.expediteur" :destinateur="liste.destinataire" :destination="liste.destination"/>
+          <li class="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg">
+            <list-card
+                :image="liste.imageUrl"
+                :date="liste.date ? formatDateTime(liste.date) : 'Non dispo'"
+                :nbre-colis="liste.nombreDeColis"
+                :statut="liste.statut"
+                :expediteur="liste.expediteur"
+                :destinateur="liste.destinataire"
+                :destination="liste.destination"
+            />
           </li>
         </router-link>
       </ul>
     </div>
+
   </div>
 </template>
 
