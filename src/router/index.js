@@ -22,6 +22,10 @@ import {get} from "@vueuse/core";
 import LoginFormView from "../views/loginFormView.vue";
 import {useAuthStore} from "../stores/useAuthStore.js";
 import Trajets from "../views/trajets.vue";
+import Boxes from "../views/boxes.vue";
+import boxeDetailsView from "../views/boxeDetailsView.vue";
+import RentalView from "../views/rentalView.vue";
+import GeneratorBarCode from '../components/GeneratorBarCode.vue'
 // import DailyTasksAppView from '../views/dailyTasks/DailyTasksAppView.vue'
 
 const requireAuth = (to ,from , next )=>{
@@ -65,6 +69,20 @@ const router = createRouter({
             },
         },
         {
+            path: '/boxes',
+            component: Boxes,
+            meta: {
+                authNeeded: true,
+            },
+        },
+        {
+            path: '/boxes/:id',
+            component: boxeDetailsView,
+            meta: {
+                authNeeded: true,
+            },
+        },
+        {
             path: '/liste/:id',
             component: ListeDetailsView,
             meta: {
@@ -81,6 +99,13 @@ const router = createRouter({
         {
             path: '/soumission',
             component: SoumissionFormulaire,
+            meta: {
+                authNeeded: true,
+            },
+        },
+        {
+            path: '/BarCode',
+            component: GeneratorBarCode,
             meta: {
                 authNeeded: true,
             },
@@ -151,6 +176,13 @@ const router = createRouter({
         {
             path: '/chargementsDetails/:id',
             component: ChargementsDetails,
+            meta: {
+                authNeeded: true,
+            },
+        },
+        {
+            path: '/rental',
+            component: RentalView,
             meta: {
                 authNeeded: true,
             },

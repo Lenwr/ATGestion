@@ -32,12 +32,17 @@ const createCustomers = async () => {
       codePostal: '',
       telephone: '',
       envois: [{expediteur: '', colis: ''}] };
-    toast("Client supprimé", {
+    toast("Nouveau client crée", {
       "theme": "auto",
       "type": "error",
       "autoClose": 1000,
       "dangerouslyHTMLString": true
     })
+    customer.value.nom = '',
+        customer.value.prenom = ''
+        customer.value.adresse = ''
+        customer.value.codePostal = ''
+        customer.value.telephone = ''
 
   } catch (e) {
     console.error('Erreur lors de la création:', e);

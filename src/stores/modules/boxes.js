@@ -11,26 +11,32 @@ import {
     doc
 } from 'firebase/firestore';
 
-export const useCustomersStore = defineStore('customers', {
+export const useBoxeStore = defineStore('boxes', {
     state: () => ({
-        customers: [],
-        currentCustomer: null,
+        boxes: [],
+        currentBoxe: null,
         loading: false,
         error: null
     }),
 
     actions: {
         // CREATE
-        async createCutomers(data) {
+        async createBoxes(data) {
             this.loading = true;
             try {
-                const docRef = await addDoc(collection(db, 'customers'), {
+                const docRef = await addDoc(collection(db, 'boxes'), {
                     ...data,
-                    createdAt: new Date()
+                    createdAt: new Date(),
+                    location : {
+                        customer_id: "",
+                        customer_name:"",
+                        start_date: "",
+                        end_date: ""
+                    }
                 });
-                const newCustomer = { id: docRef.id, ...data };
-                this.customers.push(newCustomer);
-                return newCustomer;
+                const newBoxe = { id: docRef.id, ...data };
+                this.boxes.push(newBoxe);
+                return newBoxe;
             } catch (error) {
                 this.error = error.message;
                 throw error;
@@ -40,11 +46,11 @@ export const useCustomersStore = defineStore('customers', {
         },
 
         // READ (tous les enlèvements)
-        async fetchCustomers() {
+        async fetchBoxes() {
             this.loading = true;
             try {
-                const querySnapshot = await getDocs(collection(db, 'customers'));
-                this.customers = querySnapshot.docs.map(doc => ({
+                const querySnapshot = await getDocs(collection(db, 'boxes'));
+                this.boxes = querySnapshot.docs.map(doc => ({
                     id: doc.id,
                     ...doc.data()
                 }));
@@ -57,20 +63,20 @@ export const useCustomersStore = defineStore('customers', {
         },
 
         // READ (un seul enlèvement)
-        async fetchCustomer(id) {
+        async fetchBoxe(id) {
             this.loading = true;
             try {
-                const docRef = doc(db, 'customers', id);
+                const docRef = doc(db, 'boxes', id);
                 const docSnap = await getDoc(docRef);
 
                 if (docSnap.exists()) {
-                    this.currentCustomer = {
+                    this.currentBoxe = {
                         id: docSnap.id,
                         ...docSnap.data()
                     };
-                    return this.currentCustomer ;
+                    return this.currentBoxe ;
                 } else {
-                    throw new Error('Client non trouvé');
+                    throw new Error('Boxe non trouvée');
                 }
             } catch (error) {
                 this.error = error.message;
@@ -81,17 +87,17 @@ export const useCustomersStore = defineStore('customers', {
         },
 
         // UPDATE
-        async updateCustomers(id, updates) {
+        async updateBoxes(id, updates) {
             this.loading = true;
             try {
-                const docRef = doc(db, 'enlevements', id);
+                const docRef = doc(db, 'boxes', id);
                 await updateDoc(docRef, updates);
 
                 // Mise à jour du state local
-                const index = this.customers.findIndex(e => e.id === id);
+                const index = this.boxes.findIndex(e => e.id === id);
                 if (index !== -1) {
-                    this.enlevements[index] = {
-                        ...this.enlevements[index],
+                    this.boxes[index] = {
+                        ...this.boxes[index],
                         ...updates
                     };
                 }
@@ -104,11 +110,11 @@ export const useCustomersStore = defineStore('customers', {
         },
 
         // DELETE
-        async deleteCustomer(id) {
+        async deleteBoxe(id) {
             this.loading = true;
             try {
-                await deleteDoc(doc(db, 'customers', id));
-                this.customers = this.customers.filter(e => e.id !== id);
+                await deleteDoc(doc(db, 'boxes', id));
+                this.boxes = this.boxes.filter(e => e.id !== id);
             } catch (error) {
                 this.error = error.message;
                 throw error;

@@ -100,6 +100,8 @@ async function deleteCustomer(id) {
 
 const makePDF = (client) => {
   const canvasElement = document.getElementById('qr_code')
+  console.log(canvasElement)
+ 
   let texteDescription = ref('')
   if (client.description){
     texteDescription.value = client.description

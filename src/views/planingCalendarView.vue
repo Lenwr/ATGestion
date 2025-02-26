@@ -36,11 +36,10 @@ newDatas = computed(() => {
   });
 });
 
-console.log(newDatas.value)
 
 let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
+console.log(todayStr)
 let timeDisplay = todayStr + 'T12:00:00'
-console.log(timeDisplay)
 
 
 async function sup() {
@@ -80,7 +79,6 @@ const addLoading= async ( ) => {
     allDay: true,
   };
   const newDocumentRef = await addDoc(eventCollection, data);
-  console.log('Document ajouté avec ID :', newDocumentRef.id);
   title.value = ''
   start.value = ''
   toast("Chargement enrégistré", {
@@ -124,22 +122,10 @@ const options = reactive({
   currentEvents:newDatas
 });
 
-/**
- watch(datas, (oldDatas , newDatas) => {
-  if (newDatas) {
-    options.events = datas.value.map((doc) => {
-      const formattedStart = display(doc.start);
-     //const formattedEnd = display(doc.end);
-      return {
-        id : doc.id,
-        title:doc.title ,
-        start: formattedStart,
-        end:formattedStart
-      };
-    });
-  }
+const futureEvents = computed(() => {
+  return options.currentEvents.filter(event => new Date(event.start) >= new Date());
 });
- **/
+console.log(futureEvents.value)
 
 
 </script>
@@ -157,7 +143,7 @@ const options = reactive({
           <h2>Tous les chargements ({{ options.currentEvents.length }})</h2>
 
           <ul>
-            <li v-for='event in options.currentEvents' :key='event.id'>
+            <li v-for='event in futureEvents' :key='event.id'>
              <i>
                 {{ event.title}}
                 </i>
