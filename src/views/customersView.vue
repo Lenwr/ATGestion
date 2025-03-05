@@ -230,7 +230,7 @@ async function listFilter() {
 
   <div v-if="loading">Chargement...</div>
   <div v-else class="flex flex-col w-screen">
-    <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
+    <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5 pb-20">
       <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
         <div class="overflow-hidden">
           <table class="min-w-full">

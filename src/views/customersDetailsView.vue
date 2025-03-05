@@ -144,7 +144,7 @@ const ajouterColis = () => {
     <!-- Bouton d'ajout -->
     <span
         class="flex items-center bg-green-500 text-white px-6 py-2 my-6 rounded-full shadow-lg text-lg font-medium hover:bg-green-600 transition duration-300 cursor-pointer"
-        @click="send.showModal()"
+        onclick="formModal.showModal()"
     >
     Nouvel Envoi
     <svg
@@ -164,7 +164,7 @@ const ajouterColis = () => {
   </span>
 
     <!-- Liste des enlèvements -->
-    <div class="flex flex-col w-full space-y-4">
+    <div class="flex flex-col w-full space-y-4 pb-20">
       <div
           v-for="(item, i) in listeColis"
           :key="i"
@@ -185,7 +185,7 @@ const ajouterColis = () => {
   </div>
 
 
-  <dialog id="send" class="modal">
+  <dialog id="formModal" class="modal modal-bottom sm:modal-middle">
     <div class="modal-box h-[60%] bg-white text-black">
       <form class="space-y-6" @submit.prevent="send">
         <div class="date mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -358,8 +358,9 @@ const ajouterColis = () => {
               autocomplete="personneEnCharge"
               class="block h-[3em] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
             >
-              <option>Adèle</option>
-              <option>Ibrahim</option>
+            <option>Jules</option>
+              <option>Abou</option>
+              <option>Said</option>
               <option>Mathieu</option>
               <option>Autres</option>
             </select>
