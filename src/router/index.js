@@ -131,9 +131,6 @@ const router = createRouter({
         {
             path: '/customers',
             component: CustomersView,
-            meta: {
-                authNeeded: true,
-            },
         },
         {
             path: '/customersDetails/:id',
