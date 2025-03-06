@@ -127,9 +127,6 @@ const router = createRouter({
         {
             path: '/customersForm',
             component: CustomersFormView,
-            meta: {
-                authNeeded: true,
-            },
         },
         {
             path: '/customers',
